@@ -18,7 +18,14 @@ import org.apache.http.client.methods.HttpTrace;
  */
 public enum Method {
 
-  DELETE(HttpDelete.class), GET(HttpGet.class), HEADER(HttpHead.class), OPTIONS(HttpOptions.class), PATCH(HttpPatch.class), POST(HttpPost.class), PUT(HttpPut.class), TRACE(HttpTrace.class);
+  DELETE(HttpDelete.class),
+  GET(HttpGet.class),
+  HEADER(HttpHead.class),
+  OPTIONS(HttpOptions.class),
+  PATCH(HttpPatch.class),
+  POST(HttpPost.class),
+  PUT(HttpPut.class),
+  TRACE(HttpTrace.class);
 
   Class<? extends HttpRequest> httpRequestClass;
 
