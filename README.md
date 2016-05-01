@@ -47,6 +47,7 @@ of the test class.  In this case, there's no @Methods annotation, so the HTTP
 GET verb is assumed.  In this case, the entire HttpResponse object is returned
 for verification.
 
+    @Test
     @Paths("/api/something")
     @Headers("Accept:application/json")
     public void simpleTest(HttpResponse response) {
@@ -57,6 +58,7 @@ The second example shows the power of JUnit5's test resolver.  This test will
 be executed 12 times - once for each combination of path and method.  In all
 these cases, the expected response from the server is "403 Forbidden".
 
+    @Test
     @Paths({"/api/first-resource", "/api/second-resource", "/api/third-resource"})
     @Methods({Method.POST, Method.PUT, Method.PATCH, Method.DELETE})
     @Headers("Accept:application/json")
@@ -69,6 +71,7 @@ the third example.  This test verifies that the round-trip time is less than
 2mS.  As with any performance testing, network latency between the testing
 and tested host becomes important.
 
+    @Test
     @Paths("/api/something")
     @Headers("Accept:application/json")
     public void performanceTest(HttpResponse response, Performance performance) {
@@ -81,7 +84,7 @@ shown below, the JavaEE 7 JSON APIs are used to unmarshal the entity body
 into a JsonObject.  The @Body annotation is used to indicate that unREST
 should attempt to provide that parameter.  Once the JsonObject is retrieved
 
-
+    @Test
     @Paths("/api/something")
     @Headers("Accept:application/json")
     public void responseBodyTest(@Body JsonObject jsonObject) {
