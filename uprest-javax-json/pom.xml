@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <parent>
+    <groupId>com.selesy.testing.uprest</groupId>
+    <artifactId>uprest-parent</artifactId>
+    <version>0.1-SNAPSHOT</version>
+  </parent>
+  
+  <artifactId>uprest-javax-json</artifactId>
+  <name>upRest - Java EE JSON Support</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.selesy.testing.uprest</groupId>
+      <artifactId>uprest-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.json</groupId>
+      <artifactId>javax.json-api</artifactId>
+    </dependency>
+  </dependencies>
+  
+</project>
