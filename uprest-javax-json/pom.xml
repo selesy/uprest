@@ -1,16 +1,19 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>com.selesy.testing.uprest</groupId>
     <artifactId>uprest-parent</artifactId>
     <version>0.1-SNAPSHOT</version>
   </parent>
-  
+
   <artifactId>uprest-javax-json</artifactId>
   <name>upRest - Java EE JSON Support</name>
-  
+
   <dependencies>
+
+    <!-- Library dependencies -->
     <dependency>
       <groupId>com.selesy.testing.uprest</groupId>
       <artifactId>uprest-core</artifactId>
@@ -19,6 +22,29 @@
       <groupId>javax.json</groupId>
       <artifactId>javax.json-api</artifactId>
     </dependency>
+
+    <!-- Convenience libraries -->
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+
+    <!-- Test dependencies -->
+
+    <dependency>
+      <groupId>org.junit</groupId>
+      <artifactId>junit4-runner</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit</groupId>
+      <artifactId>junit5-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+
   </dependencies>
-  
+
 </project>
