@@ -1,5 +1,10 @@
 package com.selesy.testing.uprest.annotations;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * One or more path segments that can accumulate to form a URL.  The first
  * segment of the path is the "base URL" which when derived from an environment
@@ -16,6 +21,8 @@ package com.selesy.testing.uprest.annotations;
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
 public @interface Paths {
   
   /**
