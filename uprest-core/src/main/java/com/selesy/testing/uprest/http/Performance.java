@@ -1,13 +1,13 @@
 package com.selesy.testing.uprest.http;
 
-import lombok.Data;
+import lombok.Value;
 
 /**
  * A collection of rudimentary performance metrics.
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
-@Data
+@Value
 public class Performance {
 
   // The number of bytes in the HttpRequest's entity body (sent to the server)
