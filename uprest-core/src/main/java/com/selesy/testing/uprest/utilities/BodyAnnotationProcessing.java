@@ -3,7 +3,7 @@ package com.selesy.testing.uprest.utilities;
 import java.lang.reflect.Parameter;
 import java.util.Set;
 
-import com.selesy.testing.uprest.annotations.Body;
+import com.selesy.testing.uprest.annotations.EntityBody;
 
 /**
  * Utility methods to make @Body annotation processing easier.
@@ -32,7 +32,7 @@ public final class BodyAnnotationProcessing {
 
     if (parameter != null) {
       if (supportedBodyClasses.contains(parameter.getType())) {
-        if (parameter.isAnnotationPresent(Body.class)) {
+        if (parameter.isAnnotationPresent(EntityBody.class)) {
           supported = true;
         }
       }
