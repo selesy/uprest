@@ -1,4 +1,4 @@
-package com.selesy.testing.uprest.http;
+package com.selesy.testing.uprest;
 
 import org.junit.gen5.junit4.runner.JUnit5;
 import org.junit.gen5.junit4.runner.Packages;
