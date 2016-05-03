@@ -39,13 +39,21 @@ public class UpRestJavaxJson implements MethodParameterResolver {
     SUPPORTED_BODY_CLASSES.put(JsonObject.class, JsonObjectEntityBodyResolver.class);
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Resolves the requested parameter if possible.
    * 
-   * @see
-   * org.junit.gen5.api.extension.MethodParameterResolver#resolve(java.lang.
-   * reflect.Parameter, org.junit.gen5.api.extension.MethodInvocationContext,
-   * org.junit.gen5.api.extension.ExtensionContext)
+   * @param parameter
+   *          The parameter that should be resolved.
+   * @param mic
+   *          The MethodInvocationContext.
+   * @param ec
+   *          The ExtensionContext.
+   * @return The resolved parameter.
+   * 
+   * @see org.junit.gen5.api.extension.MethodParameterResolver#resolve(java.lang.
+   *      reflect.Parameter,
+   *      org.junit.gen5.api.extension.MethodInvocationContext,
+   *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
   public Object resolve(Parameter parameter, MethodInvocationContext mic, ExtensionContext ec) throws ParameterResolutionException {
@@ -69,13 +77,23 @@ public class UpRestJavaxJson implements MethodParameterResolver {
     return resolver.resolve(mic, ec);
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Indicates whether this MethodParameterResolver supports the classes listed
+   * above (related to HTTP/REST testing).
    * 
-   * @see
-   * org.junit.gen5.api.extension.MethodParameterResolver#supports(java.lang.
-   * reflect.Parameter, org.junit.gen5.api.extension.MethodInvocationContext,
-   * org.junit.gen5.api.extension.ExtensionContext)
+   * @param parameter
+   *          The parameter that should be resolved.
+   * @param mic
+   *          The MethodInvocationContext.
+   * @param ec
+   *          The ExtensionContext.
+   * @return A boolean indicating whether this MethodParameterResolver can
+   *         resolve the specified parameter.
+   * 
+   * @see org.junit.gen5.api.extension.MethodParameterResolver#supports(java.lang.
+   *      reflect.Parameter,
+   *      org.junit.gen5.api.extension.MethodInvocationContext,
+   *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
   public boolean supports(Parameter parameter, MethodInvocationContext arg1, ExtensionContext arg2) throws ParameterResolutionException {
