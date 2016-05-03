@@ -6,7 +6,7 @@ import java.util.Set;
 import com.selesy.testing.uprest.annotations.EntityBody;
 
 /**
- * Utility methods to make @Body annotation processing easier.
+ * Utility methods to make @EntityBody annotation processing easier.
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
@@ -19,7 +19,7 @@ public final class BodyAnnotationProcessing {
   /**
    * Indicates that support for method parameter resolution is available if the
    * parameter's type is included in the provided set of supported classes and
-   * if the parameter is annotated with the @Body annotation.
+   * if the parameter is annotated with the @EntityBody annotation.
    * 
    * @param parameter
    *          The parameter that JUnit5 wishes to resolve.
