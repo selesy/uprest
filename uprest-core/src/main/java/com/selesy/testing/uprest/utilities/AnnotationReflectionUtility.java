@@ -63,7 +63,7 @@ public class AnnotationReflectionUtility {
     Class<?> type = method.getDeclaringClass();
     log.debug("Type class: {}", type.getName());
 
-    return getOptionalAnnotation(annotationClass, method);
+    return getOptionalAnnotation(annotationClass, type);
   }
 
   // Abstracts the work of actually retrieving the requested annotation and
