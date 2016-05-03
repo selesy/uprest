@@ -11,4 +11,38 @@
   <artifactId>uprest-examples</artifactId>
   <name>upREST - Examples</name>
 
+  <dependencies>
+
+    <!-- Test dependencies -->
+
+    <dependency>
+      <groupId>com.selesy.testing.uprest</groupId>
+      <artifactId>uprest-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.selesy.testing.uprest</groupId>
+      <artifactId>uprest-javax-json</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit</groupId>
+      <artifactId>junit4-runner</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit</groupId>
+      <artifactId>junit5-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+    
+    <!-- Convenience dependencies -->
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    
+  </dependencies>
+
 </project>
