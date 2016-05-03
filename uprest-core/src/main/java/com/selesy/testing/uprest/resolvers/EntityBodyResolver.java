@@ -39,9 +39,10 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
     byte[] entityBody = (byte[]) store.getOrComputeIfAbsent(UpRest.STORE_KEY_ENTITY_BODY, (c) -> {
       HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
       httpResponseResolver.resolve(mic, ec);
-      return store.get(UpRest.STORE_KEY_ENTITY_BODY);
+      return (byte[]) store.get(UpRest.STORE_KEY_ENTITY_BODY);
     });
 
+    log.debug("Entity body: {}", entityBody);
     return entityBody;
   }
 
