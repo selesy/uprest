@@ -52,16 +52,8 @@ public class HttpResponseResolver implements ChainableParameterResolver {
       httpResponse = client.execute(httpUriRequest);
       long end = System.nanoTime();
       
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      HttpEntity entity = httpResponse.getEntity();
-      entity.writeTo(baos);
-      byte[] entityBody = baos.toByteArray();
-      baos.close();
-      log.debug("Entity body: {}", entityBody);
+      Performance performance = new Performance(0, 0, end-start);
       
-      Performance performance = new Performance(0, entityBody.length, end-start);
-      
-      store.put(UpRest.STORE_KEY_ENTITY_BODY, entityBody);
       store.put(UpRest.STORE_KEY_HTTP_RESPONSE, httpResponse);
       store.put(UpRest.STORE_KEY_PERFORMANCE, performance);
     } catch (IOException e) {

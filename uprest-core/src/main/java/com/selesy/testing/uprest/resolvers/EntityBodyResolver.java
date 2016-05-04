@@ -3,6 +3,11 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 import org.junit.gen5.api.extension.MethodInvocationContext;
@@ -34,12 +39,32 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
 
     Store store = ec.getStore();
 
-    // Retrieve the entity body if it's already been produced, otherwise, chain
-    // to the HttpResponseResolver (which will produce it).
-    byte[] entityBody = (byte[]) store.getOrComputeIfAbsent(UpRest.STORE_KEY_ENTITY_BODY, (c) -> {
-      HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
-      httpResponseResolver.resolve(mic, ec);
-      return (byte[]) store.get(UpRest.STORE_KEY_ENTITY_BODY);
+    // Retrieve the entity body if it's already been produced, otherwise, get
+    // the HTTP response and create it (also updating the Performance object).
+    byte[] entityBody = (byte[]) store.getOrComputeIfAbsent(UpRest.STORE_KEY_ENTITY_BODY, (e) -> {
+
+      // Retrieve the HTTP response if it's already been produced, otherwise
+      // chain to the HttpResponseResolver to create it.
+      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRest.STORE_KEY_HTTP_RESPONSE, (r) -> {
+        HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
+        return httpResponseResolver.resolve(mic, ec);
+      });
+
+      HttpEntity httpEntity = httpResponse.getEntity();
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      byte[] httpEntityContent = {};
+
+      try {
+        httpEntity.writeTo(baos);
+        httpEntityContent = baos.toByteArray();
+        baos.close();
+      } catch (IOException ioe) {
+        log.error("Failed to read the entity body content.");
+      }
+      log.debug("Entity body: {}", httpEntityContent);
+
+      store.put(UpRest.STORE_KEY_ENTITY_BODY, httpEntityContent);
+      return httpEntityContent;
     });
 
     log.debug("Entity body: {}", entityBody);
