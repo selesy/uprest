@@ -13,6 +13,7 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
 
+    <version.assertj>3.4.1</version.assertj>
     <version.glassfish.json>1.0.4</version.glassfish.json>
     <version.httpclient>4.5.2</version.httpclient>
     <version.javax.json>1.0</version.javax.json>
@@ -87,6 +88,11 @@
         <groupId>org.glassfish</groupId>
         <artifactId>javax.json</artifactId>
         <version>${version.glassfish.json}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.assertj</groupId>
+        <artifactId>assertj-core</artifactId>
+        <version>${version.assertj}</version>
       </dependency>
 
       <!-- Project references -->
