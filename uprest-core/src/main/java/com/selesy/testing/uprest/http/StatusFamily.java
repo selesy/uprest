@@ -87,7 +87,7 @@ public enum StatusFamily {
    * @return The presentable contents of a StatusFamily object.
    */
   public String toString() {
-    return familyCode + " - " + familyMessage;
+    return familyCode + "00 - " + familyMessage;
   }
 
 }
