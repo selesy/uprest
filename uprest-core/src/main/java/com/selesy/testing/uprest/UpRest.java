@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.MethodInvocationContext;
 import org.junit.gen5.api.extension.MethodParameterResolver;
@@ -16,10 +17,11 @@ import com.selesy.testing.uprest.http.Performance;
 import com.selesy.testing.uprest.resolvers.ByteArrayEntityBodyResolver;
 import com.selesy.testing.uprest.resolvers.ChainableParameterResolver;
 import com.selesy.testing.uprest.resolvers.EntityBodyResolver;
-import com.selesy.testing.uprest.resolvers.HttpResponseResolver;
 import com.selesy.testing.uprest.resolvers.HttpRequestResolver;
+import com.selesy.testing.uprest.resolvers.HttpResponseResolver;
 import com.selesy.testing.uprest.resolvers.NullResolver;
 import com.selesy.testing.uprest.resolvers.PerformanceResolver;
+import com.selesy.testing.uprest.resolvers.StatusLineResolver;
 import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
 import com.selesy.testing.uprest.utilities.BodyAnnotationProcessing;
 
@@ -48,8 +50,7 @@ public class UpRest implements MethodParameterResolver {
     SUPPORTED_PARAMETER_CLASSES.put(HttpRequest.class, HttpRequestResolver.class);
     SUPPORTED_PARAMETER_CLASSES.put(HttpResponse.class, HttpResponseResolver.class);
     SUPPORTED_PARAMETER_CLASSES.put(Performance.class, PerformanceResolver.class);
-    // SUPPORTED_PARAMETER_CLASSES.put(StatusLine.class,
-    // StatusLineResolver.class);
+    SUPPORTED_PARAMETER_CLASSES.put(StatusLine.class, StatusLineResolver.class);
 
     // @EntityBody parameter resolvers
     SUPPORTED_BODY_CLASSES.put(byte[].class, ByteArrayEntityBodyResolver.class);
