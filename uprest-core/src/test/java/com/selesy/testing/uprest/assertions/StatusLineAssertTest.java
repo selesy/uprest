@@ -172,4 +172,28 @@ public class StatusLineAssertTest {
         .hasMessageStartingWith("Expected HTTP status family to be");
   }
 
+  /**
+   * Verify we pass the assertion when the StatusLine is equal.
+   */
+  @Test
+  public void testIsEqualToWithMatch() {
+    ProtocolVersion protocolVersion = new ProtocolVersion("HTTP", 1, 1);
+    StatusLine expected = new BasicStatusLine(protocolVersion, 201, "Created");
+    statusLineAssert.isEqualTo(expected);
+  }
+
+  /**
+   * Verify that we throw an assertion when the StatusLines are different.
+   */
+  @Test
+  public void testIsEqualToWithDifference() {
+    ProtocolVersion protocolVersion = new ProtocolVersion("HTTP", 1, 1);
+    StatusLine expected = new BasicStatusLine(protocolVersion, 302, "Found");
+    Throwable thrown = expectThrows(AssertionError.class, () -> {
+      statusLineAssert.isEqualTo(expected);
+    });
+    assertThat(thrown)
+        .hasMessageMatching("Expected HTTP .*? to be .*? but was .*?\\.");
+  }
+
 }

@@ -87,7 +87,7 @@ public class StatusLineAssert extends AbstractAssert<StatusLineAssert, StatusLin
     String actualReasonPhrase = actual.getReasonPhrase();
     if ((actualReasonPhrase != null && !actualReasonPhrase.equals(reasonPhrase)) ||
         (actualReasonPhrase == null && reasonPhrase != null)) {
-      failWithMessage(MESSAGE_ERROR_REASON_PHRASES_NOT_EQUAL, actualReasonPhrase, actualReasonPhrase);
+      failWithMessage(MESSAGE_ERROR_REASON_PHRASES_NOT_EQUAL, reasonPhrase, actualReasonPhrase);
     }
 
     return this;
@@ -123,6 +123,25 @@ public class StatusLineAssert extends AbstractAssert<StatusLineAssert, StatusLin
       failWithMessage(MESSAGE_ERROR_STATUS_FAMILIES_NOT_EQUAL, statusFamily, actualStatusFamily);
     }
 
+    return this;
+  }
+  
+  /**
+   * Tests that the expected StatusLine is equal to the actual StatusLine.
+   * 
+   * @param statusLine - The expected StatusLine.
+   * @return The StatusLineAssert object for method chaining.
+   */
+  public StatusLineAssert isEqualTo(StatusLine statusLine) {
+    isNotNull();
+    
+//    if(!actual.equals(statusLine)) {
+//      failWithMessage(MESSAGE_ERROR_STATUS_LINE_NOT_EQUAL, statusLine, actual);
+//    }
+    hasProtocolVersion(statusLine.getProtocolVersion());
+    hasReasonPhrase(statusLine.getReasonPhrase());
+    hasStatusCode(statusLine.getStatusCode());
+    
     return this;
   }
 
