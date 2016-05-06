@@ -13,6 +13,7 @@ import org.junit.gen5.api.extension.ExtensionContext.Store;
 import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.http.Performance;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,6 +51,7 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
         return httpResponseResolver.resolve(mic, ec);
       });
 
+      // Read the HTTP entity body into a byte[]
       HttpEntity httpEntity = httpResponse.getEntity();
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
       byte[] httpEntityContent = {};
@@ -63,6 +65,12 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
       }
       log.debug("Entity body: {}", httpEntityContent);
 
+      // Update the stored performance object
+      Performance oldPerformance = (Performance) store.get(UpRest.STORE_KEY_PERFORMANCE);
+      Performance newPerformance = new Performance(oldPerformance.getRequestSize(), httpEntityContent.length, oldPerformance.getRoundTripInNanoSeconds());
+      store.put(UpRest.STORE_KEY_PERFORMANCE, newPerformance);
+
+      // Store the retrieved HTTP entity
       store.put(UpRest.STORE_KEY_ENTITY_BODY, httpEntityContent);
       return httpEntityContent;
     });
