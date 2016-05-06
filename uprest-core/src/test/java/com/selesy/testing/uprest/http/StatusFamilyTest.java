@@ -77,4 +77,14 @@ public class StatusFamilyTest {
         .hasMessage(StatusFamily.MESSAGE_STATUSLINE_NULL);
   }
 
+  /**
+   * Test that the toString() method produces a correctly formatted result.
+   */
+  @Test
+  public void testToString() {
+    StatusFamily statusFamily = StatusFamily.fromStatusCode(302);
+    assertThat(statusFamily.toString())
+        .isEqualTo("300 - Redirection");
+  }
+
 }

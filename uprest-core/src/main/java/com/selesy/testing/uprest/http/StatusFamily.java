@@ -79,5 +79,15 @@ public enum StatusFamily {
     }
     return StatusFamily.fromStatusCode(statusLine.getStatusCode());
   }
+  
+  /**
+   * Returns a string containing a "pretty" compilation of the status family
+   * code and message.
+   * 
+   * @return The presentable contents of a StatusFamily object.
+   */
+  public String toString() {
+    return familyCode + " - " + familyMessage;
+  }
 
 }
