@@ -31,11 +31,12 @@ Modules
     requests then receive, process and verify the HTTP/REST responses.
 -   uprest-examples - A comprehensive set of working examples which are also
     used as acceptance tests for the core and supporting modules.
--   uprest-fluent - Additional fluent-style assertions that build on the
-    wonderful Assert4J library.
 -   uprest-javax-json - Provides additional processing of the HTTP response
     so that a JsonObject (or less commonly a JsonArray) can be verified
     programmatically.
+-   uprest-jsonpath - Provides additional processing of the HTTP response so
+    that a parsed JsonPath document is available for method parameter
+    resolution and can be verified programatically.
 
 Examples
 --------
@@ -51,7 +52,10 @@ for verification.
     @Paths("/api/something")
     @Headers("Accept:application/json")
     public void simpleTest(HttpResponse response) {
-      // Add verification here
+      assertThat(response)
+          .hasStatusFamily(StatusFamily.OK)
+          .hasContentType("application/json")
+          .hasEntityBody();
     }
 
 The second example shows the power of JUnit5's test resolver.  This test will
@@ -63,7 +67,8 @@ these cases, the expected response from the server is "403 Forbidden".
     @Methods({Method.POST, Method.PUT, Method.PATCH, Method.DELETE})
     @Headers("Accept:application/json")
     public void dynamicTest(StatusLine status) {
-      assertEquals(HttpStatus.SC_FORBIDDEN, status.getStatusCode);
+      assertThat(status)
+          .hasStatusCode(HttpStatus.SC_FORBIDDEN);
     }
 
 The unREST framework also allows rudimentary performance testing as shown in
@@ -75,18 +80,24 @@ and tested host becomes important.
     @Paths("/api/something")
     @Headers("Accept:application/json")
     public void performanceTest(HttpResponse response, Performance performance) {
-      assertTrue(performance.getResponseTime() < 20000);
+      assumeThat(response)
+          .hasStatusFamily(HttpStatus.SC_OK);
+      assertThat(performance)
+          .hasRoundTripTimeLessThan(20000);
     }
 
 The final example uses one of the "content specific" modules to unmarshal
 the HttpResponse's entity body to a specific format for verification.  As
 shown below, the JavaEE 7 JSON APIs are used to unmarshal the entity body
-into a JsonObject.  The @Body annotation is used to indicate that unREST
-should attempt to provide that parameter.  Once the JsonObject is retrieved
+into a JsonObject.  The @EntityBody annotation is used to indicate that
+unREST should attempt to provide that parameter.  Once the JsonObject is
+retrieved
 
     @Test
     @Paths("/api/something")
     @Headers("Accept:application/json")
-    public void responseBodyTest(@Body JsonObject jsonObject) {
-      assertTrue(jsonObject.containsKey("id");
+    public void responseBodyTest(@EntityBody JsonObject jsonObject) {
+      assertThat(jsonOjbect)
+          .containsKey("id")
+          .hasKeyWithValue("userName", "abc123");
     }
