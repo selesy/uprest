@@ -6,16 +6,20 @@ package com.selesy.testing.uprest.resolvers;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.http.HttpRequest;
+import org.apache.http.Header;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.message.BasicHeader;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.annotations.Headers;
 import com.selesy.testing.uprest.annotations.Methods;
 import com.selesy.testing.uprest.annotations.Paths;
 import com.selesy.testing.uprest.configuration.Configuration;
@@ -30,7 +34,11 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class HttpRequestResolver implements ChainableParameterResolver {
-
+  
+  static final String HEADER_SPLITING_REGEX = "^([^:]+):(.+)$";
+  
+  Pattern pattern = Pattern.compile(HEADER_SPLITING_REGEX);
+  
   @Override
   public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
     log.trace("resolve()");
@@ -44,6 +52,13 @@ public class HttpRequestResolver implements ChainableParameterResolver {
     }
     log.debug("Methods: {}", getEnumNameList(methods));
 
+    Header[] headers = {};
+    Optional<Headers> optionalHeaders = AnnotationReflectionUtility.getMethodAnnotation(Headers.class, mic);
+    if(optionalHeaders.isPresent()) {
+      headers = convertHeaders(optionalHeaders.get().value());
+    }
+    log.debug("Headers: {}", getJoinedArrayOfHeadersAsString(headers));
+
     String[] paths = permutePaths(mic);
     log.debug("Permuted path count: {}", paths.length);
     log.debug("Paths:  {}", getJoinedArrayOfStrings(paths));
@@ -51,12 +66,13 @@ public class HttpRequestResolver implements ChainableParameterResolver {
     if (methods.length > 0 && paths.length > 0) {
       try {
         httpUriRequest = methods[0].getHttpUriRequest(paths[0]);
+        httpUriRequest.setHeaders(headers);
       } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
     }
-
+    
     if (httpUriRequest != null) {
       Store store = ec.getStore();
       store.put(UpRest.STORE_KEY_HTTP_REQUEST, httpUriRequest);
@@ -65,9 +81,28 @@ public class HttpRequestResolver implements ChainableParameterResolver {
     return httpUriRequest;
   }
 
+  Header[] convertHeaders(String[] headersIn) {
+    log.trace("convertHeaders()");
+
+    return Stream.of(headersIn)
+        .map((h) -> {
+          Matcher matcher = pattern.matcher(h);
+          log.debug("Header string matches pattern: {}", matcher.matches());
+          return new BasicHeader(matcher.group(1), matcher.group(2));
+        })
+        .collect(Collectors.toList())
+        .toArray(new Header[0]);
+  }
+
   String getEnumNameList(Enum<?>[] values) {
     return Arrays.stream(values)
         .map((x) -> x.name())
+        .collect(Collectors.joining(", "));
+  }
+  
+  String getJoinedArrayOfHeadersAsString(Header[] headers) {
+    return Arrays.stream(headers)
+        .map((h) -> h.getName() + ":" + h.getValue())
         .collect(Collectors.joining(", "));
   }
 
@@ -75,7 +110,7 @@ public class HttpRequestResolver implements ChainableParameterResolver {
     return Arrays.stream(members)
         .collect(Collectors.joining(", "));
   }
-
+  
   String[] getPathListOrDefaults(Optional<Paths> optionalPaths, String... defaults) {
     log.trace("getPathListOrDefaults()");
 

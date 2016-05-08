@@ -3,11 +3,8 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -40,8 +37,6 @@ public class HttpResponseResolver implements ChainableParameterResolver {
       store.put(UpRest.STORE_KEY_HTTP_REQUEST, hur);
       return hur;
     });
-    
-    httpUriRequest.addHeader("Accept", "application/scim+json");
     
     HttpClient client = HttpClientBuilder.create().build();
     
