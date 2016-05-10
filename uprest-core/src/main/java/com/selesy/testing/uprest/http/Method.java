@@ -23,7 +23,7 @@ public enum Method {
 
   DELETE(HttpDelete.class),
   GET(HttpGet.class),
-  HEADER(HttpHead.class),
+  HEAD(HttpHead.class),
   OPTIONS(HttpOptions.class),
   PATCH(HttpPatch.class),
   POST(HttpPost.class),
