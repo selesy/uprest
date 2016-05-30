@@ -6,11 +6,11 @@ package com.selesy.testing.uprest.javax.json.resolvers;
 import java.io.StringReader;
 
 import javax.json.Json;
+import javax.json.JsonException;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 
 import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
 
@@ -42,10 +42,10 @@ public class JsonObjectEntityBodyResolver extends StringEntityBodyResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
+  public Object resolve(ExtensionContext ec) {
     log.trace("resolve()");
 
-    String entityBody = (String) super.resolve(mic, ec);
+    String entityBody = (String) super.resolve(ec);
     log.debug("Entity body: {}", entityBody);
 
     JsonReader jsonReader = Json.createReader(new StringReader(entityBody));

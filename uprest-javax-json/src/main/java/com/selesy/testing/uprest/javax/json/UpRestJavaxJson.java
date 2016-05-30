@@ -6,14 +6,14 @@ package com.selesy.testing.uprest.javax.json;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.MethodInvocationContext;
-import org.junit.gen5.api.extension.MethodParameterResolver;
 import org.junit.gen5.api.extension.ParameterResolutionException;
+import org.junit.gen5.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.javax.json.resolvers.JsonArrayEntityBodyResolver;
 import com.selesy.testing.uprest.javax.json.resolvers.JsonObjectEntityBodyResolver;
@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Slf4j
-public class UpRestJavaxJson implements MethodParameterResolver {
+public class UpRestJavaxJson implements ParameterResolver {
 
   public static final Map<Class<?>, Class<? extends ChainableParameterResolver>> SUPPORTED_BODY_CLASSES = new HashMap<>();
 
@@ -56,7 +56,7 @@ public class UpRestJavaxJson implements MethodParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(Parameter parameter, MethodInvocationContext mic, ExtensionContext ec) throws ParameterResolutionException {
+  public Object resolve(Parameter parameter, Optional<Object> target, ExtensionContext ec) throws ParameterResolutionException {
     log.trace("resolve()");
 
     Class<?> parameterClass = parameter.getType();
@@ -74,7 +74,7 @@ public class UpRestJavaxJson implements MethodParameterResolver {
     }
     log.debug("Body parameter resolver class: {}", resolver.getClass().getName());
 
-    return resolver.resolve(mic, ec);
+    return resolver.resolve(ec);
   }
 
   /**
@@ -96,7 +96,7 @@ public class UpRestJavaxJson implements MethodParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public boolean supports(Parameter parameter, MethodInvocationContext arg1, ExtensionContext arg2) throws ParameterResolutionException {
+  public boolean supports(Parameter parameter, Optional<Object> target, ExtensionContext arg2) throws ParameterResolutionException {
     return BodyAnnotationProcessing.supportsBody(parameter, SUPPORTED_BODY_CLASSES.keySet());
   }
 
