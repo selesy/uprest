@@ -7,7 +7,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.UpRest;
 
@@ -36,7 +35,7 @@ public class StatusLineResolver implements ChainableParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
+  public Object resolve(ExtensionContext ec) {
     log.trace("resolve()");
 
     Store store = ec.getStore();
@@ -49,7 +48,7 @@ public class StatusLineResolver implements ChainableParameterResolver {
       // chain to the HttpResponseResolver to create it.
       HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRest.STORE_KEY_HTTP_RESPONSE, (r) -> {
         HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
-        return httpResponseResolver.resolve(mic, ec);
+        return httpResponseResolver.resolve(ec);
       });
 
       // Store the status line

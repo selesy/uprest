@@ -4,7 +4,6 @@
 package com.selesy.testing.uprest.resolvers;
 
 import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,10 +32,10 @@ public class ByteArrayEntityBodyResolver extends EntityBodyResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
+  public Object resolve(ExtensionContext ec) {
     log.trace("resolve()");
 
-    byte[] entityBody = (byte[]) super.resolve(mic, ec);
+    byte[] entityBody = (byte[]) super.resolve(ec);
     log.debug("Entity body as byte[]: {}", entityBody);
 
     return entityBody;

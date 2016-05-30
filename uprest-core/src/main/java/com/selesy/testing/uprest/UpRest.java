@@ -3,14 +3,14 @@ package com.selesy.testing.uprest;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.MethodInvocationContext;
-import org.junit.gen5.api.extension.MethodParameterResolver;
 import org.junit.gen5.api.extension.ParameterResolutionException;
+import org.junit.gen5.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.annotations.EntityBody;
 import com.selesy.testing.uprest.http.Performance;
@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Slf4j
-public class UpRest implements MethodParameterResolver {
+public class UpRest implements ParameterResolver {
 
   public static final String STORE_KEY_ENTITY_BODY = "EntityBody";
   public static final String STORE_KEY_HTTP_REQUEST = "HttpRequest";
@@ -67,7 +67,7 @@ public class UpRest implements MethodParameterResolver {
    *          The parameter that should be resolved.
    * @param mic
    *          The MethodInvocationContext.
-   * @param ec
+   * @param extensionContext
    *          The ExtensionContext.
    * @return The resolved parameter.
    * 
@@ -77,7 +77,7 @@ public class UpRest implements MethodParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(Parameter parameter, MethodInvocationContext mic, ExtensionContext ec) throws ParameterResolutionException {
+  public Object resolve(Parameter parameter, Optional<Object> target, ExtensionContext extensionContext) throws ParameterResolutionException {
     log.trace("resolve()");
 
     Class<?> parameterClass = parameter.getType();
@@ -106,7 +106,7 @@ public class UpRest implements MethodParameterResolver {
     }
     log.debug("Parameter resolver class: {}", resolver.getClass().getName());
 
-    return resolver.resolve(mic, ec);
+    return resolver.resolve(extensionContext);
   }
 
   /**
@@ -128,7 +128,7 @@ public class UpRest implements MethodParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public boolean supports(Parameter parameter, MethodInvocationContext mic, ExtensionContext ec) throws ParameterResolutionException {
+  public boolean supports(Parameter parameter, Optional<Object> object, ExtensionContext ec) throws ParameterResolutionException {
     log.trace("supports()");
 
     if (log.isDebugEnabled()) {

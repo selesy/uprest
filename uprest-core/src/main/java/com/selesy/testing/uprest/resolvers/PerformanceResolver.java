@@ -5,7 +5,6 @@ package com.selesy.testing.uprest.resolvers;
 
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.UpRest;
 import com.selesy.testing.uprest.http.Performance;
@@ -37,13 +36,13 @@ public class PerformanceResolver implements ChainableParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
+  public Object resolve(ExtensionContext ec) {
     log.trace("resolve()");
 
     Store store = ec.getStore();
     Performance performance = (Performance) store.getOrComputeIfAbsent(UpRest.STORE_KEY_PERFORMANCE, (c) -> {
       HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
-      httpResponseResolver.resolve(mic, ec);
+      httpResponseResolver.resolve(ec);
       return store.get(UpRest.STORE_KEY_PERFORMANCE);
     });
 

@@ -16,7 +16,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicHeader;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.UpRest;
 import com.selesy.testing.uprest.annotations.Headers;
@@ -61,14 +60,17 @@ public class HttpRequestResolver implements ChainableParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
+  public Object resolve(ExtensionContext ec) {
     log.trace("resolve()");
-    log.debug("Test name: {}", mic.getMethod().getName());
+
+// TODO - Figure out an elegant way of u
+//    Optional<Method> optionalMethod = ec.getTestMethod();
+//    log.debug("Test name: {}", ec.getTestMethod().getName());
     HttpUriRequest httpUriRequest = null;
 
     // Get the HTTP methods
     Method[] methods = { Method.GET };
-    Optional<Methods> optionalMethods = AnnotationReflectionUtility.getMethodAnnotation(Methods.class, mic);
+    Optional<Methods> optionalMethods = AnnotationReflectionUtility.getMethodAnnotation(Methods.class, ec);
     if (optionalMethods.isPresent()) {
       methods = optionalMethods.get().value();
     }
@@ -76,14 +78,14 @@ public class HttpRequestResolver implements ChainableParameterResolver {
 
     // Get the HTTP request headers
     Header[] headers = {};
-    Optional<Headers> optionalHeaders = AnnotationReflectionUtility.getMethodAnnotation(Headers.class, mic);
+    Optional<Headers> optionalHeaders = AnnotationReflectionUtility.getMethodAnnotation(Headers.class, ec);
     if (optionalHeaders.isPresent()) {
       headers = convertHeaders(optionalHeaders.get().value());
     }
     log.debug("Headers: {}", getJoinedArrayOfHeadersAsString(headers));
 
     // Get the annotated paths (which will be the suffix of the test URI
-    String[] paths = permutePaths(mic);
+    String[] paths = permutePaths(ec);
     log.debug("Permuted path count: {}", paths.length);
     log.debug("Paths:  {}", getJoinedArrayOfStrings(paths));
 
@@ -194,11 +196,11 @@ public class HttpRequestResolver implements ChainableParameterResolver {
    * Generates a list of String URIs that contains every permutation of base
    * paths, type paths and method paths.
    * 
-   * @param mic
+   * @param extensionContext
    *          The test's MethodInvocationContext.
    * @return The List<String> containing the resulting path URIs.
    */
-  String[] permutePaths(MethodInvocationContext mic) {
+  String[] permutePaths(ExtensionContext extensionContext) {
     log.trace("permutePaths()");
 
     // Get the list of base paths
@@ -206,12 +208,12 @@ public class HttpRequestResolver implements ChainableParameterResolver {
     log.debug("Base paths: {}", getJoinedArrayOfStrings(basePaths));
 
     // Get a list of type paths (which at a minimum will contain "")
-    Optional<Paths> optionalTypePaths = AnnotationReflectionUtility.getTypeAnnotation(Paths.class, mic);
+    Optional<Paths> optionalTypePaths = AnnotationReflectionUtility.getTypeAnnotation(Paths.class, extensionContext);
     final String[] typePaths = getPathListOrDefaults(optionalTypePaths, "");
     log.debug("Type paths: {}", getJoinedArrayOfStrings(typePaths));
 
     // Get list of method paths (which at a minimum will contain "")
-    Optional<Paths> optionalMethodPaths = AnnotationReflectionUtility.getMethodAnnotation(Paths.class, mic);
+    Optional<Paths> optionalMethodPaths = AnnotationReflectionUtility.getMethodAnnotation(Paths.class, extensionContext);
     final String[] methodPaths = getPathListOrDefaults(optionalMethodPaths, "");
     log.debug("Method paths: {}", getJoinedArrayOfStrings(methodPaths));
 

@@ -1,7 +1,6 @@
 package com.selesy.testing.uprest.resolvers;
 
 import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 /**
  * Defines an interface that allows a MethodParameterResolver to execute a chain
@@ -22,6 +21,6 @@ public interface ChainableParameterResolver {
    *          The ExtensionContext.
    * @return The Object that will be used as a test parameter.
    */
-  Object resolve(MethodInvocationContext mic, ExtensionContext ec);
+  Object resolve(ExtensionContext ec);
 
 }

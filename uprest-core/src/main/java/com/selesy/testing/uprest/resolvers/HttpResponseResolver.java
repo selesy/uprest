@@ -11,7 +11,6 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.api.extension.MethodInvocationContext;
 
 import com.selesy.testing.uprest.UpRest;
 import com.selesy.testing.uprest.http.Performance;
@@ -26,14 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 public class HttpResponseResolver implements ChainableParameterResolver {
 
   @Override
-  public Object resolve(MethodInvocationContext mic, ExtensionContext ec) {
+  public Object resolve(ExtensionContext ec) {
     log.trace("resolve()");
     
     // Retrieve the test's HttpUriRequest from the store (or create it if absent)
     Store store = ec.getStore();
     HttpUriRequest httpUriRequest = (HttpUriRequest) store.getOrComputeIfAbsent(UpRest.STORE_KEY_HTTP_REQUEST, (c) -> {
       HttpRequestResolver httpRequestResolver = new HttpRequestResolver();
-      Object hur = httpRequestResolver.resolve(mic, ec);
+      Object hur = httpRequestResolver.resolve(ec);
       store.put(UpRest.STORE_KEY_HTTP_REQUEST, hur);
       return hur;
     });
