@@ -47,7 +47,7 @@ public class UpRestOld implements ParameterResolver {
 
   static {
     // Parameter resolvers
-    SUPPORTED_PARAMETER_CLASSES.put(HttpRequest.class, HttpRequestResolver.class);
+    //SUPPORTED_PARAMETER_CLASSES.put(HttpRequest.class, HttpRequestResolver.class);
     SUPPORTED_PARAMETER_CLASSES.put(HttpResponse.class, HttpResponseResolver.class);
     SUPPORTED_PARAMETER_CLASSES.put(Performance.class, PerformanceResolver.class);
     SUPPORTED_PARAMETER_CLASSES.put(StatusLine.class, StatusLineResolver.class);
