@@ -17,7 +17,7 @@ import org.apache.http.message.BasicHeader;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 
-import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.Headers;
 import com.selesy.testing.uprest.annotations.Methods;
 import com.selesy.testing.uprest.annotations.Paths;
@@ -104,7 +104,7 @@ public class HttpRequestResolver implements ChainableParameterResolver {
     // the resolution of other parameters.
     if (httpUriRequest != null) {
       Store store = ec.getStore();
-      store.put(UpRest.STORE_KEY_HTTP_REQUEST, httpUriRequest);
+      store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, httpUriRequest);
     }
 
     return httpUriRequest;

@@ -8,7 +8,7 @@ import org.apache.http.StatusLine;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 
-import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.UpRestOld;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,18 +42,18 @@ public class StatusLineResolver implements ChainableParameterResolver {
 
     // Retrieve the entity body if it's already been produced, otherwise, get
     // the HTTP response and create it (also updating the Performance object).
-    StatusLine statusLine = (StatusLine) store.getOrComputeIfAbsent(UpRest.STORE_KEY_STATUS_LINE, (e) -> {
+    StatusLine statusLine = (StatusLine) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_STATUS_LINE, (e) -> {
 
       // Retrieve the HTTP response if it's already been produced, otherwise
       // chain to the HttpResponseResolver to create it.
-      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRest.STORE_KEY_HTTP_RESPONSE, (r) -> {
+      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (r) -> {
         HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
         return httpResponseResolver.resolve(ec);
       });
 
       // Store the status line
       StatusLine sl = httpResponse.getStatusLine();
-      store.put(UpRest.STORE_KEY_STATUS_LINE, sl);
+      store.put(UpRestOld.STORE_KEY_STATUS_LINE, sl);
       return sl;
     });
 

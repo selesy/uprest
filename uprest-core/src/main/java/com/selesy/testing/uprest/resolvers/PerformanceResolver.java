@@ -6,7 +6,7 @@ package com.selesy.testing.uprest.resolvers;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 
-import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.http.Performance;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +40,10 @@ public class PerformanceResolver implements ChainableParameterResolver {
     log.trace("resolve()");
 
     Store store = ec.getStore();
-    Performance performance = (Performance) store.getOrComputeIfAbsent(UpRest.STORE_KEY_PERFORMANCE, (c) -> {
+    Performance performance = (Performance) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_PERFORMANCE, (c) -> {
       HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
       httpResponseResolver.resolve(ec);
-      return store.get(UpRest.STORE_KEY_PERFORMANCE);
+      return store.get(UpRestOld.STORE_KEY_PERFORMANCE);
     });
 
     return performance;

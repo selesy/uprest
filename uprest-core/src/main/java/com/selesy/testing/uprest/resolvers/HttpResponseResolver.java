@@ -12,7 +12,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 
-import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.http.Performance;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,10 @@ public class HttpResponseResolver implements ChainableParameterResolver {
     
     // Retrieve the test's HttpUriRequest from the store (or create it if absent)
     Store store = ec.getStore();
-    HttpUriRequest httpUriRequest = (HttpUriRequest) store.getOrComputeIfAbsent(UpRest.STORE_KEY_HTTP_REQUEST, (c) -> {
+    HttpUriRequest httpUriRequest = (HttpUriRequest) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_REQUEST, (c) -> {
       HttpRequestResolver httpRequestResolver = new HttpRequestResolver();
       Object hur = httpRequestResolver.resolve(ec);
-      store.put(UpRest.STORE_KEY_HTTP_REQUEST, hur);
+      store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, hur);
       return hur;
     });
     
@@ -48,8 +48,8 @@ public class HttpResponseResolver implements ChainableParameterResolver {
       
       Performance performance = new Performance(0, 0, end-start);
       
-      store.put(UpRest.STORE_KEY_HTTP_RESPONSE, httpResponse);
-      store.put(UpRest.STORE_KEY_PERFORMANCE, performance);
+      store.put(UpRestOld.STORE_KEY_HTTP_RESPONSE, httpResponse);
+      store.put(UpRestOld.STORE_KEY_PERFORMANCE, performance);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

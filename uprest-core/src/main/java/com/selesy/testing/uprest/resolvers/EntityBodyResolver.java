@@ -11,7 +11,7 @@ import org.apache.http.HttpResponse;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 
-import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.http.Performance;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,11 +41,11 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
 
     // Retrieve the entity body if it's already been produced, otherwise, get
     // the HTTP response and create it (also updating the Performance object).
-    byte[] entityBody = (byte[]) store.getOrComputeIfAbsent(UpRest.STORE_KEY_ENTITY_BODY, (e) -> {
+    byte[] entityBody = (byte[]) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_ENTITY_BODY, (e) -> {
 
       // Retrieve the HTTP response if it's already been produced, otherwise
       // chain to the HttpResponseResolver to create it.
-      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRest.STORE_KEY_HTTP_RESPONSE, (r) -> {
+      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (r) -> {
         HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
         return httpResponseResolver.resolve(ec);
       });
@@ -65,12 +65,12 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
       log.debug("Entity body: {}", httpEntityContent);
 
       // Update the stored performance object
-      Performance oldPerformance = (Performance) store.get(UpRest.STORE_KEY_PERFORMANCE);
+      Performance oldPerformance = (Performance) store.get(UpRestOld.STORE_KEY_PERFORMANCE);
       Performance newPerformance = new Performance(oldPerformance.getRequestSize(), httpEntityContent.length, oldPerformance.getRoundTripInNanoSeconds());
-      store.put(UpRest.STORE_KEY_PERFORMANCE, newPerformance);
+      store.put(UpRestOld.STORE_KEY_PERFORMANCE, newPerformance);
 
       // Store the retrieved HTTP entity
-      store.put(UpRest.STORE_KEY_ENTITY_BODY, httpEntityContent);
+      store.put(UpRestOld.STORE_KEY_ENTITY_BODY, httpEntityContent);
       return httpEntityContent;
     });
 
