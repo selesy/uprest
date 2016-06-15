@@ -1,19 +1,22 @@
 package com.selesy.testing.uprest.resolvers;
 
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.gen5.api.Assumptions.assumeTrue;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Parameter;
+import java.lang.reflect.Method;
 import java.util.Optional;
 
 import org.junit.gen5.api.BeforeEach;
 import org.junit.gen5.api.Test;
 import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ExtensionContext.Namespace;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
+import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ParameterResolutionException;
+import org.junit.gen5.engine.UniqueId;
 import org.junit.gen5.engine.junit5.descriptor.MethodBasedTestExtensionContext;
+import org.junit.gen5.engine.junit5.descriptor.MethodTestDescriptor;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,20 +56,34 @@ public class AbstractParameterResolverTest {
 		
 	}
 	
+	class TestClass {
+		public void testMethod() {}
+	}
+	
 	ExtensionContext extensionContext;
+	Namespace namespace;
 	
 	@BeforeEach
-	public void setUp() {
+	public void setUp() throws NoSuchMethodException, SecurityException {
 		log.trace("setUp()");
-		extensionContext = new MethodBasedTestExtensionContext(null, null, null, null);
-		Store store = extensionContext.getStore(Namespace.of(extensionContext.getUniqueId()));
+		UniqueId id = UniqueId.root("testType", "testSegment");
+		Class<?> clazz = TestClass.class;
+		Method method = clazz.getMethod("testMethod", new Class[0]);
+		MethodTestDescriptor descriptor = new MethodTestDescriptor(id, clazz, method);
+		extensionContext = new MethodBasedTestExtensionContext(null, null, descriptor, null);
+		assumeTrue(extensionContext != null);
+		namespace = Namespace.of(extensionContext.getUniqueId());
+		Store store = extensionContext.getStore(namespace);
 		store.put(TEST_KEY, TEST_VALUE);
 	}
 
 	@Test
 	public void testGetStore() {
 		log.trace("testGetStore()");
-		fail("Not yet implemented");
+		Store store = extensionContext.getStore(namespace);
+		assertThat(store).isNotNull();
+		String value = (String) store.get(TEST_KEY);
+		assertThat(value).isEqualTo(TEST_VALUE);
 	}
 
 }
