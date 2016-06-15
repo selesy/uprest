@@ -14,6 +14,7 @@
     <maven.compiler.target>8</maven.compiler.target>
 
     <version.assertj>3.4.1</version.assertj>
+    <version.jsr305>3.0.1</version.jsr305>
     <version.glassfish.json>1.0.4</version.glassfish.json>
     <version.httpclient>4.5.2</version.httpclient>
     <version.javax.json>1.0</version.javax.json>
@@ -123,6 +124,12 @@
         <version>${version.lombok}</version>
         <scope>provided</scope>
       </dependency>
+      <dependency>
+        <groupId>com.google.code.findbugs</groupId>
+        <artifactId>jsr305</artifactId>
+        <version>${version.jsr305}</version>
+        <scope>provided</scope>
+      </dependency>
 
       <!-- Test dependencies -->
 
@@ -170,6 +177,23 @@
               <version>${version.junit5}</version>
             </dependency>
           </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>3.0.4-SNAPSHOT</version>
+          <configuration>
+            <effort>Max</effort>
+            <threshold>Low</threshold>
+            <xmlOutput>true</xmlOutput>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
