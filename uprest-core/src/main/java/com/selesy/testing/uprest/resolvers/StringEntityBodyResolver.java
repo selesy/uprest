@@ -3,6 +3,8 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
+import java.nio.charset.Charset;
+
 import org.junit.gen5.api.extension.ExtensionContext;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +36,7 @@ public class StringEntityBodyResolver extends EntityBodyResolver {
     log.trace("resolve()");
 
     byte[] entityBody = (byte[]) super.resolve(ec);
-    String stringEntityBody = new String(entityBody);
+    String stringEntityBody = new String(entityBody, Charset.forName("UTF-8"));
     log.debug("Entity body: {}", stringEntityBody);
 
     return stringEntityBody;
