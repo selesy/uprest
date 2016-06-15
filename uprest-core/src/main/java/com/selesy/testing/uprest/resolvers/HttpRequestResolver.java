@@ -5,7 +5,6 @@ package com.selesy.testing.uprest.resolvers;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Parameter;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -19,6 +18,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicHeader;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
+import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ParameterResolutionException;
 
 import com.selesy.testing.uprest.UpRestOld;
@@ -227,7 +227,7 @@ public class HttpRequestResolver extends AbstractParameterResolver implements Ch
 	}
 
 	@Override
-	public Object resolve(Parameter arg0, Optional<Object> arg1, ExtensionContext arg2)
+	public Object resolve(ParameterContext parameterContext, ExtensionContext arg2)
 			throws ParameterResolutionException {
 		// TODO - Actually put the method body in this class
 		return resolve(arg2);

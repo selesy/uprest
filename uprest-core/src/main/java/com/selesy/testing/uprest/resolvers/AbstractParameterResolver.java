@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Namespace;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
+import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ParameterResolutionException;
 import org.junit.gen5.api.extension.ParameterResolver;
 
@@ -55,10 +56,11 @@ public abstract class AbstractParameterResolver implements ParameterResolver {
 	}
 
 	@Override
-	public boolean supports(Parameter parameter, Optional<Object> target, ExtensionContext extensionContext)
+	public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
 			throws ParameterResolutionException {
 		boolean supported = false;
 
+		Parameter parameter = parameterContext.getParameter();
 		if (getType().equals(parameter.getType())) {
 			Optional<Class<? extends Annotation>> optionalAnnotationClass = getAnnotationClass();
 			if (optionalAnnotationClass.isPresent()) {

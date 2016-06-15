@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.gen5.api.BeforeEach;
 import org.junit.gen5.api.Test;
 import org.junit.gen5.api.extension.ExtensionContext;
+import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ExtensionContext.Namespace;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
 import org.junit.gen5.api.extension.ParameterResolutionException;
@@ -27,7 +28,7 @@ public class AbstractParameterResolverTest {
 		static final String STORE_KEY_TEST = "TestKey";
 		
 		@Override
-		public Object resolve(Parameter arg0, Optional<Object> arg1, ExtensionContext arg2)
+		public Object resolve(ParameterContext parameterContext, ExtensionContext arg2)
 				throws ParameterResolutionException {
 			// TODO Auto-generated method stub
 			return null;

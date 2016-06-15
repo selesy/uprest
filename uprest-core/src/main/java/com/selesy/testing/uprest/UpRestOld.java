@@ -9,6 +9,7 @@ import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.junit.gen5.api.extension.ExtensionContext;
+import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ParameterResolutionException;
 import org.junit.gen5.api.extension.ParameterResolver;
 
@@ -77,9 +78,10 @@ public class UpRestOld implements ParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(Parameter parameter, Optional<Object> target, ExtensionContext extensionContext) throws ParameterResolutionException {
+  public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
     log.trace("resolve()");
 
+    Parameter parameter = parameterContext.getParameter();
     Class<?> parameterClass = parameter.getType();
     log.debug("Class name: {}", parameterClass.getName());
 
@@ -128,9 +130,10 @@ public class UpRestOld implements ParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public boolean supports(Parameter parameter, Optional<Object> object, ExtensionContext ec) throws ParameterResolutionException {
+  public boolean supports(ParameterContext parameterContext, ExtensionContext ec) throws ParameterResolutionException {
     log.trace("supports()");
 
+    Parameter parameter = parameterContext.getParameter();
     if (log.isDebugEnabled()) {
       log.debug("Supported parameter: {}", SUPPORTED_PARAMETER_CLASSES.containsKey(parameter.getType()));
       log.debug("Supported @EntityBody: {}", BodyAnnotationProcessing.supportsBody(parameter, SUPPORTED_BODY_CLASSES.keySet()));

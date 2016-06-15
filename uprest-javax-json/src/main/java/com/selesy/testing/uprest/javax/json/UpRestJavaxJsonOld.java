@@ -12,6 +12,7 @@ import javax.json.JsonArray;
 import javax.json.JsonObject;
 
 import org.junit.gen5.api.extension.ExtensionContext;
+import org.junit.gen5.api.extension.ParameterContext;
 import org.junit.gen5.api.extension.ParameterResolutionException;
 import org.junit.gen5.api.extension.ParameterResolver;
 
@@ -56,9 +57,10 @@ public class UpRestJavaxJsonOld implements ParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(Parameter parameter, Optional<Object> target, ExtensionContext ec) throws ParameterResolutionException {
+  public Object resolve(ParameterContext parameterContext, ExtensionContext ec) throws ParameterResolutionException {
     log.trace("resolve()");
 
+    Parameter parameter = parameterContext.getParameter();
     Class<?> parameterClass = parameter.getType();
     log.debug("Class name: {}", parameterClass.getName());
 
@@ -96,7 +98,8 @@ public class UpRestJavaxJsonOld implements ParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public boolean supports(Parameter parameter, Optional<Object> target, ExtensionContext arg2) throws ParameterResolutionException {
+  public boolean supports(ParameterContext parameterContext, ExtensionContext arg2) throws ParameterResolutionException {
+    Parameter parameter = parameterContext.getParameter();
     return BodyAnnotationProcessing.supportsBody(parameter, SUPPORTED_BODY_CLASSES.keySet());
   }
 
