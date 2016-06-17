@@ -21,7 +21,7 @@
     <version.jsonpath>2.2.0</version.jsonpath>
     <version.junit4>4.12</version.junit4>
     <version.junit5>5.0.0-SNAPSHOT</version.junit5>
-    <version.lombok>1.14.8</version.lombok>
+    <version.lombok>1.16.8</version.lombok>
     <version.mockito>1.10.19</version.mockito>
     <version.slf4j>1.7.21</version.slf4j>
   </properties>
