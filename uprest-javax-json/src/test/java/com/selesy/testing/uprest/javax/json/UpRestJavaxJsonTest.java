@@ -53,13 +53,13 @@ public class UpRestJavaxJsonTest {
 
   ExtensionContext ec;
   Junk junk;
-  UpRestJavaxJson upRestJavaxJson;
+  UpRestJavaxJsonOld upRestJavaxJson;
 
   @BeforeEach
   public void beforeEach() {
     ec = new MethodBasedTestExtensionContext(null, null, null, null);
     junk = new Junk();
-    upRestJavaxJson = new UpRestJavaxJson();
+    upRestJavaxJson = new UpRestJavaxJsonOld();
   }
 
   // This method works with the Junk class above to generate Parameter objects

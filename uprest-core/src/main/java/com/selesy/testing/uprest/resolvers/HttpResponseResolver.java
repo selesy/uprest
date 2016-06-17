@@ -32,7 +32,7 @@ public class HttpResponseResolver implements ChainableParameterResolver {
     Store store = ec.getStore();
     HttpUriRequest httpUriRequest = (HttpUriRequest) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_REQUEST, (c) -> {
       HttpRequestResolver httpRequestResolver = new HttpRequestResolver();
-      Object hur = httpRequestResolver.resolve(ec);
+      Object hur = httpRequestResolver.resolve(null, ec);
       store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, hur);
       return hur;
     });

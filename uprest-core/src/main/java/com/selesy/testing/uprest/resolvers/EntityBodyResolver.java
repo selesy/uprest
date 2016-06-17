@@ -6,12 +6,19 @@ package com.selesy.testing.uprest.resolvers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import javax.annotation.Nonnull;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.junit.gen5.api.extension.ExtensionContext;
 import org.junit.gen5.api.extension.ExtensionContext.Store;
+import org.junit.gen5.api.extension.ParameterContext;
+import org.junit.gen5.api.extension.ParameterResolutionException;
+import org.junit.gen5.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.UpRestOld;
+import com.selesy.testing.uprest.annotations.EntityBody;
 import com.selesy.testing.uprest.http.Performance;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Slf4j
-public abstract class EntityBodyResolver implements ChainableParameterResolver {
+public abstract class EntityBodyResolver implements ChainableParameterResolver, ParameterResolver {
 
   /*
    * (non-Javadoc)
@@ -66,7 +73,8 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
 
       // Update the stored performance object
       Performance oldPerformance = (Performance) store.get(UpRestOld.STORE_KEY_PERFORMANCE);
-      Performance newPerformance = new Performance(oldPerformance.getRequestSize(), httpEntityContent.length, oldPerformance.getRoundTripInNanoSeconds());
+      Performance newPerformance = new Performance(oldPerformance.getRequestSize(), httpEntityContent.length,
+          oldPerformance.getRoundTripInNanoSeconds());
       store.put(UpRestOld.STORE_KEY_PERFORMANCE, newPerformance);
 
       // Store the retrieved HTTP entity
@@ -76,6 +84,19 @@ public abstract class EntityBodyResolver implements ChainableParameterResolver {
 
     log.debug("Entity body: {}", entityBody);
     return entityBody;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * org.junit.gen5.api.extension.ParameterResolver#supports(org.junit.gen5.api.
+   * extension.ParameterContext, org.junit.gen5.api.extension.ExtensionContext)
+   */
+  @OverridingMethodsMustInvokeSuper
+  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+    return parameterContext.getParameter().isAnnotationPresent(EntityBody.class);
   }
 
 }
