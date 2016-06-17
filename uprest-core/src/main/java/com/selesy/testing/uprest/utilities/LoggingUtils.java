@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nonnull;
+
 import lombok.experimental.UtilityClass;
 
 /**
@@ -22,7 +24,8 @@ public class LoggingUtils {
    *          The passed enum elements.
    * @return A human-readable String of the elements names.
    */
-  public String prettyPrint(Enum<?>[] values) {
+  @Nonnull
+  public String prettyPrint(@Nonnull Enum<?>[] values) {
     return prettyPrint(values, (x) -> x.name());
   }
 
@@ -33,7 +36,8 @@ public class LoggingUtils {
    *          The HTTP headers.
    * @return A pretty-printed String.
    */
-  public <T> String prettyPrint(T[] values, Function<T, String> toString) {
+  @Nonnull
+  public <T> String prettyPrint(@Nonnull T[] values, @Nonnull Function<T, String> toString) {
     return Arrays.stream(values)
         .map(toString)
         .collect(Collectors.joining(", "));
@@ -46,7 +50,8 @@ public class LoggingUtils {
    *          The elements of the String[].
    * @return A pretty-printed String.
    */
-  public String prettyPrint(String[] members) {
+  @Nonnull
+  public String prettyPrint(@Nonnull String[] members) {
     return Arrays.stream(members)
         .collect(Collectors.joining(", "));
   }
