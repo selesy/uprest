@@ -14,7 +14,7 @@ import org.junit.gen5.api.Test;
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
-public class MethodTest {
+public class MethodTests {
 
   static final String TEST_URI = "http://localhost";
 

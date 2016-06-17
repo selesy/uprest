@@ -16,7 +16,7 @@ import com.selesy.testing.uprest.http.StatusFamily;
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
-public class StatusLineAssertTest {
+public class StatusLineAssertTests {
 
   StatusLineAssert statusLineAssert;
 

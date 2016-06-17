@@ -14,7 +14,7 @@ import org.junit.gen5.api.Test;
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
-public class StatusFamilyTest {
+public class StatusFamilyTests {
 
   /**
    * Tests that a valid StatusFamily can be retrieved via reverse lookup from a
