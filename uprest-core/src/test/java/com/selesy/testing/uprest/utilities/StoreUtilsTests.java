@@ -19,8 +19,9 @@ import org.mockito.Mock;
 import com.selesy.testing.uprest.extensions.MockitoExtension;
 
 /**
- * @author swm16
- *
+ * Tests for the StoreUtils class.
+ * 
+ * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @ExtendWith(MockitoExtension.class)
 public class StoreUtilsTests {
@@ -34,6 +35,10 @@ public class StoreUtilsTests {
   @Mock
   Store expectedStore;
 
+  /**
+   * Verifies that the store is properly created from the UniqueId contained
+   * in the ExtensionContext.
+   */
   @Test
   public void testGetNamespacedStore() {
     when(extensionContext.getUniqueId()).thenReturn(UNIQUE_ID);
