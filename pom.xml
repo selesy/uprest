@@ -162,6 +162,7 @@
       	<groupId>org.mockito</groupId>
       	<artifactId>mockito-all</artifactId>
       	<version>${version.mockito}</version>
+      	<scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
