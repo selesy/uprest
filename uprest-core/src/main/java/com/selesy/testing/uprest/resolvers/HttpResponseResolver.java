@@ -9,8 +9,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.http.Performance;

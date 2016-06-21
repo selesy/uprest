@@ -6,16 +6,15 @@ package com.selesy.testing.uprest.resolvers;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.api.extension.ParameterContext;
-import org.junit.gen5.api.extension.ParameterResolutionException;
-import org.junit.gen5.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.EntityBody;

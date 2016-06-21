@@ -3,8 +3,14 @@
  */
 package com.selesy.testing.uprest.extensions;
 
-import org.junit.gen5.api.extension.BeforeEachCallback;
-import org.junit.gen5.api.extension.TestExtensionContext;
+import static org.mockito.Mockito.mock;
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,15 +21,35 @@ import lombok.extern.slf4j.Slf4j;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Slf4j
-public class MockitoExtension implements BeforeEachCallback {
+public class MockitoExtension implements ParameterResolver, TestInstancePostProcessor {
 
-	/* (non-Javadoc)
-	 * @see org.junit.gen5.api.extension.BeforeEachCallback#beforeEach(org.junit.gen5.api.extension.TestExtensionContext)
-	 */
-	@Override
-	public void beforeEach(TestExtensionContext testExtensionContext) throws Exception {
-		log.trace("beforeEach()");
-		MockitoAnnotations.initMocks(testExtensionContext.getTestInstance());
-	}
+    /* (non-Javadoc)
+     * @see org.junit.gen5.api.extension.TestInstancePostProcessor#postProcessTestInstance(org.junit.gen5.api.extension.TestExtensionContext)
+     */
+  @Override
+  public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws Exception {
+    log.trace("postProcessTestInstance()");
+    MockitoAnnotations.initMocks(testInstance);
+  }
+
+  /* (non-Javadoc)
+   * @see org.junit.gen5.api.extension.ParameterResolver#supports(org.junit.gen5.api.extension.TestExtensionContext)
+   */
+  @Override
+  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+    log.trace("supports()");
+    return parameterContext.getParameter().isAnnotationPresent(Mock.class);
+  }
+
+  /* (non-Javadoc)
+   * @see org.junit.gen5.api.extension.ParameterResolver#resolve(org.junit.gen5.api.extension.TestExtensionContext)
+   */
+  @Override
+  public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+    log.trace("resolve()");
+    return mock(parameterContext.getParameter().getType());
+  }
 
 }

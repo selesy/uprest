@@ -2,7 +2,7 @@ package com.selesy.testing.uprest.utilities;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Provides tests for the LoggingUtils.

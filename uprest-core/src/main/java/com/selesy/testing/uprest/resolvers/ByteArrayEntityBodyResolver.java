@@ -3,9 +3,9 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ParameterContext;
-import org.junit.gen5.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
 
 import lombok.extern.slf4j.Slf4j;
 

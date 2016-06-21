@@ -3,8 +3,9 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.http.Performance;

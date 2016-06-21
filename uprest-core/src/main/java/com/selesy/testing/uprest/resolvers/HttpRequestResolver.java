@@ -14,11 +14,11 @@ import org.apache.http.Header;
 import org.apache.http.HttpRequest;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicHeader;
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.api.extension.ParameterContext;
-import org.junit.gen5.api.extension.ParameterResolutionException;
-import org.junit.gen5.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.Headers;

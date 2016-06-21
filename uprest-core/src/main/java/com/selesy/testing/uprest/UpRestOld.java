@@ -3,22 +3,19 @@ package com.selesy.testing.uprest;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ParameterContext;
-import org.junit.gen5.api.extension.ParameterResolutionException;
-import org.junit.gen5.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.annotations.EntityBody;
 import com.selesy.testing.uprest.http.Performance;
 import com.selesy.testing.uprest.resolvers.ByteArrayEntityBodyResolver;
 import com.selesy.testing.uprest.resolvers.ChainableParameterResolver;
 import com.selesy.testing.uprest.resolvers.EntityBodyResolver;
-import com.selesy.testing.uprest.resolvers.HttpRequestResolver;
 import com.selesy.testing.uprest.resolvers.HttpResponseResolver;
 import com.selesy.testing.uprest.resolvers.NullResolver;
 import com.selesy.testing.uprest.resolvers.PerformanceResolver;

@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that the correct HttpRequest subclass is returned for each of the HTTP

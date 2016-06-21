@@ -2,7 +2,7 @@ package com.selesy.testing.uprest.utilities;
 
 import java.lang.annotation.Annotation;
 
-import org.junit.gen5.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterContext;
 
 import lombok.experimental.UtilityClass;
 

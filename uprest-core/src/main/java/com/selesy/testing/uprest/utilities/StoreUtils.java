@@ -2,9 +2,9 @@ package com.selesy.testing.uprest.utilities;
 
 import javax.annotation.Nonnull;
 
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Namespace;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
 
 import lombok.experimental.UtilityClass;
 

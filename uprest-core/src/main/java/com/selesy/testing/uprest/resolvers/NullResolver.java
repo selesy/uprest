@@ -3,7 +3,7 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
-import org.junit.gen5.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * The default resolver which returns a null value for any unsupported parameter

@@ -8,12 +8,12 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.extension.ExtendWith;
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Namespace;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.engine.UniqueId;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.platform.engine.UniqueId;
 import org.mockito.Mock;
 
 import com.selesy.testing.uprest.extensions.MockitoExtension;

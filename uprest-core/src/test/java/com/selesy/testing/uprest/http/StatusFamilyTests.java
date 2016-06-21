@@ -1,13 +1,13 @@
 package com.selesy.testing.uprest.http;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.expectThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.expectThrows;
 
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.message.BasicStatusLine;
-import org.junit.gen5.api.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for the StatusFamily enum.

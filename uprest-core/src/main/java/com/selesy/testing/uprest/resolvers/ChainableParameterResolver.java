@@ -1,6 +1,6 @@
 package com.selesy.testing.uprest.resolvers;
 
-import org.junit.gen5.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 /**
  * Defines an interface that allows a MethodParameterResolver to execute a chain
