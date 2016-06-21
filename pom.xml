@@ -20,6 +20,7 @@
     <version.javax.json>1.0</version.javax.json>
     <version.jsonpath>2.2.0</version.jsonpath>
     <version.junit4>4.12</version.junit4>
+    <version.junit45>4.12.0-SNAPSHOT</version.junit45>
     <version.junit5>5.0.0-SNAPSHOT</version.junit5>
     <version.lombok>1.16.8</version.lombok>
     <version.mockito>2.0.69-beta</version.mockito>
@@ -69,8 +70,8 @@
       <!-- Library dependencies -->
 
       <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit5-api</artifactId>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
         <version>${version.junit5}</version>
       </dependency>
       <dependency>
@@ -141,14 +142,14 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit4-runner</artifactId>
-        <version>${version.junit5}</version>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+        <version>${version.junit45}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit5-engine</artifactId>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
         <version>${version.junit5}</version>
         <scope>test</scope>
       </dependency>
@@ -179,8 +180,8 @@
           <version>2.19</version>
           <dependencies>
             <dependency>
-              <groupId>org.junit</groupId>
-              <artifactId>surefire-junit5</artifactId>
+              <groupId>org.junit.platform</groupId>
+              <artifactId>junit-platform-surefire-provider</artifactId>
               <version>${version.junit5}</version>
             </dependency>
           </dependencies>
