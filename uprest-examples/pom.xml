@@ -24,12 +24,16 @@
       <artifactId>uprest-javax-json</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.junit</groupId>
-      <artifactId>junit4-runner</artifactId>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.junit</groupId>
-      <artifactId>junit5-engine</artifactId>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-runner</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
