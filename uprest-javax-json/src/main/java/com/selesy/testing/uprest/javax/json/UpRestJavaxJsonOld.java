@@ -6,15 +6,14 @@ package com.selesy.testing.uprest.javax.json;
 import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ParameterContext;
-import org.junit.gen5.api.extension.ParameterResolutionException;
-import org.junit.gen5.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.javax.json.resolvers.JsonArrayEntityBodyResolver;
 import com.selesy.testing.uprest.javax.json.resolvers.JsonObjectEntityBodyResolver;

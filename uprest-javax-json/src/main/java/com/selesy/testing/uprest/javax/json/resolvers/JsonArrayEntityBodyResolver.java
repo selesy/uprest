@@ -10,7 +10,7 @@ import javax.json.JsonArray;
 import javax.json.JsonException;
 import javax.json.JsonReader;
 
-import org.junit.gen5.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ExtensionContext;
 
 import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
 

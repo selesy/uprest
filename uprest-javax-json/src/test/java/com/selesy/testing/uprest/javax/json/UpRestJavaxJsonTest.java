@@ -1,26 +1,29 @@
 package com.selesy.testing.uprest.javax.json;
 
-import static org.junit.gen5.api.Assertions.assertEquals;
-import static org.junit.gen5.api.Assertions.assertFalse;
-import static org.junit.gen5.api.Assertions.assertNotNull;
-import static org.junit.gen5.api.Assertions.assertNull;
-import static org.junit.gen5.api.Assertions.assertTrue;
-import static org.junit.gen5.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.Optional;
 
 import javax.json.JsonArray;
 import javax.json.JsonException;
 import javax.json.JsonObject;
 
-import org.junit.gen5.api.BeforeEach;
-import org.junit.gen5.api.Test;
-import org.junit.gen5.api.extension.ExtensionContext;
-import org.junit.gen5.api.extension.ExtensionContext.Store;
-import org.junit.gen5.engine.junit5.descriptor.MethodBasedTestExtensionContext;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.engine.descriptor.MethodBasedTestExtensionContext;
 
 import com.selesy.testing.uprest.UpRest;
+import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.EntityBody;
 
 /**
@@ -75,6 +78,31 @@ public class UpRestJavaxJsonTest {
 
     return parameter;
   }
+  
+  ParameterContext getFirstParameterContext(String methodName, Class<?> parameterClass) throws NoSuchMethodException, SecurityException {
+    Parameter parameter = getFirstParameter(methodName, parameterClass);
+    ParameterContext parameterContext = new ParameterContext() {
+      
+      @Override
+      public Optional<Object> getTarget() {
+        // TODO Auto-generated method stub
+        return null;
+      }
+      
+      @Override
+      public Parameter getParameter() {
+        // TODO Auto-generated method stub
+        return parameter;
+      }
+      
+      @Override
+      public int getIndex() {
+        // TODO Auto-generated method stub
+        return 0;
+      }
+    };
+    return parameterContext;
+  }
 
   /**
    * Tests that the JsonObjectEntityBodyResolver works when supplied with a JSON
@@ -82,11 +110,11 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testResolveWithJsonObjectParameterAndJsonObjectEntityBody() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method1", JsonObject.class);
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
     Store store = ec.getStore();
-    store.put(UpRest.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_OBJECT);
+    store.put(UpRestOld.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_OBJECT);
 
-    JsonObject jsonObject = (JsonObject) upRestJavaxJson.resolve(parameter, null, ec);
+    JsonObject jsonObject = (JsonObject) upRestJavaxJson.resolve(parameterContext, ec);
     assertNotNull(jsonObject);
     assertEquals(2, jsonObject.size());
     assertEquals("string", jsonObject.getString("stringAttribute"));
@@ -99,11 +127,11 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testResolveWithJsonArrayParameterAndJsonObjectEntityBody() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method2", JsonArray.class);
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
     Store store = ec.getStore();
-    store.put(UpRest.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_OBJECT);
+    store.put(UpRestOld.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_OBJECT);
     try {
-      upRestJavaxJson.resolve(parameter, null, ec);
+      upRestJavaxJson.resolve(parameterContext, ec);
     } catch (JsonException e) {
       // This is the expected behavior
     } catch (Throwable t) {
@@ -117,11 +145,11 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testResolveWithJsonArrayParameterAndJsonArrayEntityBody() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method2", JsonArray.class);
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
     Store store = ec.getStore();
-    store.put(UpRest.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_ARRAY);
+    store.put(UpRestOld.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_ARRAY);
 
-    JsonArray jsonArray = (JsonArray) upRestJavaxJson.resolve(parameter, null, ec);
+    JsonArray jsonArray = (JsonArray) upRestJavaxJson.resolve(parameterContext, ec);
     assertNotNull(jsonArray);
     assertEquals(2, jsonArray.size());
     assertEquals("string", jsonArray.getString(0));
@@ -134,11 +162,11 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testResolveWithJsonObjectParameterAndJsonArrayEntityBody() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method1", JsonObject.class);
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
     Store store = ec.getStore();
-    store.put(UpRest.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_ARRAY);
+    store.put(UpRestOld.STORE_KEY_ENTITY_BODY, ENTITY_BODY_JSON_ARRAY);
     try {
-      upRestJavaxJson.resolve(parameter, null, ec);
+      upRestJavaxJson.resolve(parameterContext, ec);
     } catch (JsonException e) {
       // This is the expected behavior
     } catch (Throwable t) {
@@ -152,8 +180,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testResolveWithAnUnsupportedParameterType() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method3", Object.class);
-    Object object = (Object) upRestJavaxJson.resolve(parameter, null, null);
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    Object object = (Object) upRestJavaxJson.resolve(parameterContext, null);
     assertNull(object);
   }
 
@@ -163,8 +191,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportWithJsonObjectWithBodyAnnotation() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method1", JsonObject.class);
-    assertTrue(upRestJavaxJson.supports(parameter, null, null));
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    assertTrue(upRestJavaxJson.supports(parameterContext, null));
   }
 
   /**
@@ -173,8 +201,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportWithJsonArrayWithBodyAnnotation() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method2", JsonArray.class);
-    assertTrue(upRestJavaxJson.supports(parameter, null, null));
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    assertTrue(upRestJavaxJson.supports(parameterContext, null));
   }
 
   /**
@@ -183,8 +211,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportWithUnsupportedClassWithBodyAnnotation() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method3", Object.class);
-    assertFalse(upRestJavaxJson.supports(parameter, null, null));
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    assertFalse(upRestJavaxJson.supports(parameterContext, null));
   }
 
   /**
@@ -193,8 +221,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportWithJsonObjectWithoutBodyAnnotation() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method4", JsonObject.class);
-    assertFalse(upRestJavaxJson.supports(parameter, null, null));
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    assertFalse(upRestJavaxJson.supports(parameterContext, null));
   }
 
   /**
@@ -203,8 +231,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportWithJsonArrayWithoutBodyAnnotation() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method5", JsonArray.class);
-    assertFalse(upRestJavaxJson.supports(parameter, null, null));
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    assertFalse(upRestJavaxJson.supports(parameterContext, null));
   }
 
   /**
@@ -212,8 +240,8 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportWithUnsupportedClassWithoutBodyAnnotation() throws NoSuchMethodException, SecurityException {
-    Parameter parameter = getFirstParameter("method6", Object.class);
-    assertFalse(upRestJavaxJson.supports(parameter, null, null));
+    ParameterContext parameterContext = getFirstParameterContext("method1", JsonObject.class);
+    assertFalse(upRestJavaxJson.supports(parameterContext, null));
   }
 
   /**
@@ -221,7 +249,7 @@ public class UpRestJavaxJsonTest {
    */
   @Test
   public void testSupportsWithNullParameter() {
-    assertFalse(upRestJavaxJson.supports(null, null, null));
+    assertFalse(upRestJavaxJson.supports(null, null));
   }
 
 }
