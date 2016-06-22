@@ -7,9 +7,12 @@ import java.lang.annotation.Target;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import com.selesy.testing.uprest.resolvers.PerformanceResolver;
+
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @ExtendWith({
+  PerformanceResolver.class,
   UpRestOld.class
 })
 public @interface UpRest {
