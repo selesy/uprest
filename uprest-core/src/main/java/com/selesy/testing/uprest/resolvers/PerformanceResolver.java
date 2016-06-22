@@ -3,6 +3,8 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
+import java.lang.reflect.Parameter;
+
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.ParameterContext;
@@ -45,7 +47,12 @@ public class PerformanceResolver implements ParameterResolver {
   @Override
   public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-    return Performance.class.equals(parameterContext.getParameter().getType());
+    boolean supported = false;
+    Parameter parameter = parameterContext.getParameter();
+    if(parameter != null && Performance.class.equals(parameter.getType())) {
+      supported = true;
+    }
+    return supported;
   }
 
   @Override
