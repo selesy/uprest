@@ -167,10 +167,10 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-      	<groupId>org.mockito</groupId>
-      	<artifactId>mockito-core</artifactId>
-      	<version>${version.mockito}</version>
-      	<scope>test</scope>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${version.mockito}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -201,6 +201,13 @@
             <effort>Max</effort>
             <threshold>Low</threshold>
             <xmlOutput>true</xmlOutput>
+            <plugins>
+              <plugin>
+                <groupId>com.h3xstream.findsecbugs</groupId>
+                <artifactId>findsecbugs-plugin</artifactId>
+                <version>LATEST</version> <!-- Auto-update to the latest stable -->
+              </plugin>
+            </plugins>
           </configuration>
           <executions>
             <execution>
