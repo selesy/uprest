@@ -5,15 +5,20 @@ package com.selesy.testing.uprest.resolvers;
 
 import java.io.IOException;
 
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.http.Performance;
+import com.selesy.testing.uprest.utilities.StoreUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,33 +27,38 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Slf4j
-public class HttpResponseResolver implements ChainableParameterResolver {
+public class HttpResponseResolver implements ParameterResolver {
+  
+  @Override
+  public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    log.trace("resolve()");
+
+    Store store = StoreUtils.getNamespacedStore(extensionContext);
+    return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (k1) -> {
+      HttpUriRequest httpRequest = (HttpUriRequest) (new HttpRequestResolver()).resolve(parameterContext, extensionContext);
+      return execute(httpRequest);
+    });
+
+  }
 
   @Override
-  public Object resolve(ExtensionContext ec) {
-    log.trace("resolve()");
-    
-    // Retrieve the test's HttpUriRequest from the store (or create it if absent)
-    Store store = ec.getStore();
-    HttpUriRequest httpUriRequest = (HttpUriRequest) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_REQUEST, (c) -> {
-      HttpRequestResolver httpRequestResolver = new HttpRequestResolver();
-      Object hur = httpRequestResolver.resolve(null, ec);
-      store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, hur);
-      return hur;
-    });
-    
+  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
+      throws ParameterResolutionException {
+    return HttpResponse.class.equals(parameterContext.getParameter().getType());
+  }
+
+  HttpResponse execute(HttpUriRequest httpUriRequest) {
     HttpClient client = HttpClientBuilder.create().build();
-    
+
     HttpResponse httpResponse = null;
     try {
       // Execute the request, keeping track of how long it takes
       long start = System.nanoTime();
       httpResponse = client.execute(httpUriRequest);
       long end = System.nanoTime();
-      
-      Performance performance = new Performance(0, 0, end-start);
-      
-      store.put(UpRestOld.STORE_KEY_HTTP_RESPONSE, httpResponse);
+
+      Performance performance = new Performance(0, 0, end - start);
+
       store.put(UpRestOld.STORE_KEY_PERFORMANCE, performance);
     } catch (IOException e) {
       // TODO Auto-generated catch block
