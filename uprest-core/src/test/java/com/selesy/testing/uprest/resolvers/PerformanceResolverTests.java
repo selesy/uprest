@@ -26,7 +26,7 @@ import com.selesy.testing.uprest.http.Performance;
  *
  */
 @ExtendWith(MockitoExtension.class)
-public class PerformanceResolverTest {
+public class PerformanceResolverTests {
 
   class TestMethods {
 

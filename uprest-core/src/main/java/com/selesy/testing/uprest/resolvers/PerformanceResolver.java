@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class PerformanceResolver implements ParameterResolver {
-  
+
   HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
 
   /**
@@ -49,7 +49,7 @@ public class PerformanceResolver implements ParameterResolver {
       throws ParameterResolutionException {
     boolean supported = false;
     Parameter parameter = parameterContext.getParameter();
-    if(parameter != null && Performance.class.equals(parameter.getType())) {
+    if (parameter != null && Performance.class.equals(parameter.getType())) {
       supported = true;
     }
     return supported;
@@ -61,7 +61,7 @@ public class PerformanceResolver implements ParameterResolver {
     log.trace("resolve()");
 
     Store store = StoreUtils.getNamespacedStore(extensionContext);
-    return (Performance) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_PERFORMANCE, (k) -> {
+    return (Performance) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_PERFORMANCE, (key) -> {
       httpResponseResolver.resolve(parameterContext, extensionContext);
       return store.get(UpRestOld.STORE_KEY_PERFORMANCE);
     });
