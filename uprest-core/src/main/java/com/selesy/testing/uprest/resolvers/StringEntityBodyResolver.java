@@ -10,8 +10,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 
-import com.selesy.testing.uprest.annotations.EntityBody;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -42,7 +40,10 @@ public class StringEntityBodyResolver extends EntityBodyResolver {
       throws ParameterResolutionException {
     log.trace("resolve()");
 
-    byte[] entityBody = (byte[]) super.resolve(extensionContext);
+    byte[] entityBody = (byte[]) super.resolve(parameterContext, extensionContext);
+    if(entityBody == null) {
+      entityBody = new byte[0];
+    }
     String stringEntityBody = new String(entityBody, Charset.forName("UTF-8"));
     log.debug("Entity body: {}", stringEntityBody);
 
@@ -60,7 +61,7 @@ public class StringEntityBodyResolver extends EntityBodyResolver {
   public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     Parameter parameter = parameterContext.getParameter();
-    return parameter.isAnnotationPresent(EntityBody.class) && parameter.getType().equals(String.class);
+    return parameter != null && super.supports(parameterContext, extensionContext) && parameter.getType().equals(String.class);
   }
 
 }
