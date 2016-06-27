@@ -24,9 +24,9 @@ public class StoreUtils {
    * @return a unique Store for this test instance.
    */
   @Nonnull
-  public static Store getNamespacedStore(@Nonnull ExtensionContext extensionContext) {
+  public static Store getStoreNamespacedByUniqueId(@Nonnull ExtensionContext extensionContext) {
     String unigueId = extensionContext.getUniqueId();
-    Namespace namespace = Namespace.of(unigueId);
+    Namespace namespace = Namespace.create(unigueId);
     return extensionContext.getStore(namespace);
   }
 

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
-import org.junit.platform.engine.UniqueId;
 import org.mockito.Mock;
 
 import com.selesy.testing.uprest.extensions.MockitoExtension;
@@ -26,8 +25,8 @@ import com.selesy.testing.uprest.extensions.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 public class StoreUtilsTests {
   
-  static final String UNIQUE_ID = UniqueId.root("testType", "testId").toString();
-  static final Namespace NAMESPACE = Namespace.of(UNIQUE_ID);
+  static final String UNIQUE_ID = "testType:testId";
+  static final Namespace NAMESPACE = Namespace.create(UNIQUE_ID);
   
   @Mock
   ExtensionContext extensionContext;
@@ -43,7 +42,7 @@ public class StoreUtilsTests {
   public void testGetNamespacedStore() {
     when(extensionContext.getUniqueId()).thenReturn(UNIQUE_ID);
     when(extensionContext.getStore(NAMESPACE)).thenReturn(expectedStore);
-    Store actualStore = StoreUtils.getNamespacedStore(extensionContext);
+    Store actualStore = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
     verify(extensionContext).getUniqueId();
     verify(extensionContext, never()).getStore();
     verify(extensionContext).getStore(NAMESPACE);
