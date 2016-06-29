@@ -84,15 +84,6 @@ public class StringEntityBodyResolverTests extends BaseResolverTests {
   }
 
   @Test
-  public void testSupportsWithNullParameter() {
-    when(parameterContext.getParameter())
-        .thenReturn(null);
-
-    assertThat(stringEntityBodyResolver.supports(parameterContext, extensionContext))
-        .isFalse();
-  }
-
-  @Test
   public void testResolveWithValidEntityBody() {
     when(store.getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_ENTITY_BODY), any()))
         .thenReturn(entity1);

@@ -115,7 +115,7 @@ public class HttpRequestResolver implements ParameterResolver {
     // during
     // the resolution of other parameters.
     if (httpUriRequest != null) {
-      Store store = StoreUtils.getNamespacedStore(extensionContext);
+      Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
       store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, httpUriRequest);
     }
 

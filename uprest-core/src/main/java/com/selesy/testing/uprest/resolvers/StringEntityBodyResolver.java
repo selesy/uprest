@@ -3,12 +3,16 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
-import java.lang.reflect.Parameter;
 import java.nio.charset.Charset;
+
+import javax.annotation.Nonnull;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.owasp.esapi.ESAPI;
+
+import com.selesy.testing.uprest.utilities.LoggingUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Slf4j
-public class StringEntityBodyResolver extends EntityBodyResolver {
+public class StringEntityBodyResolver extends ByteArrayEntityBodyResolver {
 
   /**
    * Resolves @EntityBody parameters that are specified as String types.
@@ -35,17 +39,15 @@ public class StringEntityBodyResolver extends EntityBodyResolver {
    * @see org.junit.gen5.api.extension.ParameterResolver#resolve(org.junit.gen5.api.extension.ParameterContext,
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
+  @Nonnull
   @Override
   public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     log.trace("resolve()");
 
     byte[] entityBody = (byte[]) super.resolve(parameterContext, extensionContext);
-    if(entityBody == null) {
-      entityBody = new byte[0];
-    }
     String stringEntityBody = new String(entityBody, Charset.forName("UTF-8"));
-    log.debug("Entity body: {}", stringEntityBody);
+    log.debug("Entity body as String: {}", ESAPI.encoder().encodeForHTML(stringEntityBody));
 
     return stringEntityBody;
   }
@@ -60,8 +62,7 @@ public class StringEntityBodyResolver extends EntityBodyResolver {
   @Override
   public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
-    Parameter parameter = parameterContext.getParameter();
-    return parameter != null && super.supports(parameterContext, extensionContext) && parameter.getType().equals(String.class);
+    return supports(parameterContext, String.class);
   }
 
 }

@@ -33,10 +33,10 @@ public class HttpResponseResolver implements ParameterResolver {
   public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
     log.trace("resolve()");
 
-    Store store = StoreUtils.getNamespacedStore(extensionContext);
+    Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
     return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (k1) -> {
       HttpUriRequest httpRequest = (HttpUriRequest) (new HttpRequestResolver()).resolve(parameterContext, extensionContext);
-      return execute(httpRequest);
+      return execute(httpRequest, store);
     });
 
   }
@@ -47,7 +47,7 @@ public class HttpResponseResolver implements ParameterResolver {
     return HttpResponse.class.equals(parameterContext.getParameter().getType());
   }
 
-  HttpResponse execute(HttpUriRequest httpUriRequest) {
+  HttpResponse execute(HttpUriRequest httpUriRequest, Store store) {
     HttpClient client = HttpClientBuilder.create().build();
 
     HttpResponse httpResponse = null;
