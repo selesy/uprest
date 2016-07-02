@@ -7,12 +7,25 @@ import java.lang.annotation.Target;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import com.selesy.testing.uprest.resolvers.ByteArrayEntityBodyResolver;
+import com.selesy.testing.uprest.resolvers.HttpRequestResolver;
+import com.selesy.testing.uprest.resolvers.HttpResponseResolver;
 import com.selesy.testing.uprest.resolvers.PerformanceResolver;
+import com.selesy.testing.uprest.resolvers.StatusLineResolver;
+import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @ExtendWith({
+  ByteArrayEntityBodyResolver.class,
+  HttpRequestResolver.class,
+  HttpResponseResolver.class,
   PerformanceResolver.class,
+<<<<<<< HEAD
+=======
+  StatusLineResolver.class,
+  StringEntityBodyResolver.class
+>>>>>>> a4fa26aa9c5308b7956318c851ae48981cac995b
 })
 public @interface UpRest {
 

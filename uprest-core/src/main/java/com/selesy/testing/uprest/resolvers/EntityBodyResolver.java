@@ -5,18 +5,22 @@ package com.selesy.testing.uprest.resolvers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Parameter;
+
+import javax.annotation.Nonnull;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
+import org.owasp.esapi.ESAPI;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.EntityBody;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Performance;
+import com.selesy.testing.uprest.utilities.LoggingUtils;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,21 +36,24 @@ import lombok.extern.slf4j.Slf4j;
 public abstract class EntityBodyResolver implements ParameterResolver {
 
   HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * org.junit.gen5.api.extension.ParameterResolver#supports(org.junit.gen5.api.
-   * extension.ParameterContext, org.junit.gen5.api.extension.ExtensionContext)
-   */
-  @Override
-  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
-    log.trace("supports()");
-
-    Parameter parameter = parameterContext.getParameter();
-    return parameter != null && parameter.isAnnotationPresent(EntityBody.class);
+  
+  boolean supports(@Nonnull ParameterContext parameterContext, @Nonnull Class<?> type) {
+    return parameterContext.getParameter().isAnnotationPresent(EntityBody.class) &&
+        parameterContext.getParameter().getType().equals(type);
   }
+
+//  /*
+//   * (non-Javadoc)
+//   * 
+//   * @see
+//   * org.junit.gen5.api.extension.ParameterResolver#supports(org.junit.gen5.api.
+//   * extension.ParameterContext, org.junit.gen5.api.extension.ExtensionContext)
+//   */
+//  @Override
+//  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
+//    log.trace("supports()");
+//    return parameterContext.getParameter().isAnnotationPresent(EntityBody.class);
+//  }
 
   /*
    * (non-Javadoc)
@@ -60,7 +67,7 @@ public abstract class EntityBodyResolver implements ParameterResolver {
   public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
     log.trace("resolve()");
 
-    Store store = StoreUtils.getNamespacedStore(extensionContext);
+    Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
 
     return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_ENTITY_BODY, (e) -> {
       HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (r) -> {
@@ -79,7 +86,7 @@ public abstract class EntityBodyResolver implements ParameterResolver {
     try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
       entity.writeTo(baos);
       entityBody = baos.toByteArray();
-      log.debug("Entity body: {}", entityBody);
+      log.debug("Entity body: {}", LoggingUtils.safePrint(entityBody));
     } catch (IOException ioe) {
       log.error("Failed to read the entity body content.");
     }

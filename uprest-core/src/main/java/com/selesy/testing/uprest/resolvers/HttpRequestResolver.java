@@ -70,7 +70,7 @@ public class HttpRequestResolver implements ParameterResolver {
   public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
     log.trace("resolve()");
     
-    Store store = StoreUtils.getNamespacedStore(extensionContext);
+    Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
     return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_REQUEST, (key) -> {
       // getAppropriateHttpRequestType()
       // getMethods()
@@ -124,7 +124,7 @@ public class HttpRequestResolver implements ParameterResolver {
     // during
     // the resolution of other parameters.
     if (httpUriRequest != null) {
-      store = StoreUtils.getNamespacedStore(extensionContext);
+      store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
       store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, httpUriRequest);
     }
 

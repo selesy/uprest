@@ -5,8 +5,8 @@ import org.junit.platform.runner.SelectPackages;
 import org.junit.runner.RunWith;
 
 /**
- * Uses JUnit5's pseudo-runner to define a suite of tests that can be run
- * using JUnit4.
+ * Uses JUnit5's pseudo-runner to define a suite of tests that can be run using
+ * JUnit4.
  * 
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */

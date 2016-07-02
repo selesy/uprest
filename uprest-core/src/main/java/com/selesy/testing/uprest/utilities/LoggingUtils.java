@@ -6,6 +6,10 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
+import org.owasp.esapi.ESAPI;
+
+import com.selesy.testing.uprest.configuration.Constants;
+
 import lombok.experimental.UtilityClass;
 
 /**
@@ -26,7 +30,7 @@ public class LoggingUtils {
    */
   @Nonnull
   public String prettyPrint(@Nonnull Enum<?>[] values) {
-    return prettyPrint(values, (x) -> x.name());
+    return safePrint(prettyPrint(values, (x) -> x.name()));
   }
 
   /**
@@ -38,9 +42,9 @@ public class LoggingUtils {
    */
   @Nonnull
   public <T> String prettyPrint(@Nonnull T[] values, @Nonnull Function<T, String> toString) {
-    return Arrays.stream(values)
+    return safePrint(Arrays.stream(values)
         .map(toString)
-        .collect(Collectors.joining(", "));
+        .collect(Collectors.joining(", ")));
   }
 
   /**
@@ -52,8 +56,18 @@ public class LoggingUtils {
    */
   @Nonnull
   public String prettyPrint(@Nonnull String[] members) {
-    return Arrays.stream(members)
-        .collect(Collectors.joining(", "));
+    return safePrint(Arrays.stream(members)
+        .collect(Collectors.joining(", ")));
+  }
+  
+  @Nonnull
+  public String safePrint(byte[] unsafeByteArray) {
+    return ESAPI.encoder().encodeForHTML(new String(unsafeByteArray, Constants.CHARSET));
+  }
+  
+  @Nonnull
+  public String safePrint(@Nonnull String unsafeString) {
+    return ESAPI.encoder().encodeForHTML(unsafeString);
   }
 
 }

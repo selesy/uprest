@@ -60,7 +60,7 @@ public class PerformanceResolver implements ParameterResolver {
       throws ParameterResolutionException {
     log.trace("resolve()");
 
-    Store store = StoreUtils.getNamespacedStore(extensionContext);
+    Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
     return (Performance) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_PERFORMANCE, (key) -> {
       httpResponseResolver.resolve(parameterContext, extensionContext);
       return store.get(UpRestOld.STORE_KEY_PERFORMANCE);
