@@ -1,6 +1,7 @@
 /**
  * 
  */
+
 package com.selesy.testing.uprest.resolvers;
 
 import java.lang.reflect.InvocationTargetException;
@@ -57,8 +58,6 @@ public class HttpRequestResolver implements ParameterResolver {
    * decorating the method specified as part of the passed method invocation
    * context.
    * 
-   * @param mic
-   *          The MethodInvocationContext.
    * @param extensionContext
    *          The ExtensionContext.
    * @return The HttpRequest object needed for the test.
@@ -70,6 +69,16 @@ public class HttpRequestResolver implements ParameterResolver {
   @Override
   public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
     log.trace("resolve()");
+    
+    Store store = StoreUtils.getNamespacedStore(extensionContext);
+    return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_REQUEST, (key) -> {
+      // getAppropriateHttpRequestType()
+      // getMethods()
+      // getHeaders()
+      // getEntityBodies()
+      // getPaths()
+      return (HttpRequest) null;
+    });
 
     // TODO - Figure out an elegant way of u
     // Optional<Method> optionalMethod = ec.getTestMethod();
@@ -115,7 +124,7 @@ public class HttpRequestResolver implements ParameterResolver {
     // during
     // the resolution of other parameters.
     if (httpUriRequest != null) {
-      Store store = StoreUtils.getNamespacedStore(extensionContext);
+      store = StoreUtils.getNamespacedStore(extensionContext);
       store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, httpUriRequest);
     }
 

@@ -13,7 +13,6 @@ import com.selesy.testing.uprest.resolvers.PerformanceResolver;
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @ExtendWith({
   PerformanceResolver.class,
-  UpRestOld.class
 })
 public @interface UpRest {
 
