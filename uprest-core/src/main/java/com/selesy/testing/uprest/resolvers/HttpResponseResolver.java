@@ -5,7 +5,6 @@ package com.selesy.testing.uprest.resolvers;
 
 import java.io.IOException;
 
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-import com.selesy.testing.uprest.UpRestOld;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Performance;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
@@ -34,7 +33,7 @@ public class HttpResponseResolver implements ParameterResolver {
     log.trace("resolve()");
 
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
-    return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (k1) -> {
+    return store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_RESPONSE, (k1) -> {
       HttpUriRequest httpRequest = (HttpUriRequest) (new HttpRequestResolver()).resolve(parameterContext, extensionContext);
       return execute(httpRequest, store);
     });
@@ -59,7 +58,7 @@ public class HttpResponseResolver implements ParameterResolver {
 
       Performance performance = new Performance(0, 0, end - start);
 
-      store.put(UpRestOld.STORE_KEY_PERFORMANCE, performance);
+      store.put(Constants.STORE_KEY_PERFORMANCE, performance);
     } catch (IOException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();

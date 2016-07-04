@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-import com.selesy.testing.uprest.UpRestOld;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Performance;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
@@ -61,9 +61,9 @@ public class PerformanceResolver implements ParameterResolver {
     log.trace("resolve()");
 
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
-    return (Performance) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_PERFORMANCE, (key) -> {
+    return (Performance) store.getOrComputeIfAbsent(Constants.STORE_KEY_PERFORMANCE, (key) -> {
       httpResponseResolver.resolve(parameterContext, extensionContext);
-      return store.get(UpRestOld.STORE_KEY_PERFORMANCE);
+      return store.get(Constants.STORE_KEY_PERFORMANCE);
     });
   }
 

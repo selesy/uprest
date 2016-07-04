@@ -7,11 +7,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
-import org.owasp.esapi.ESAPI;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
+import org.owasp.esapi.ESAPI;
 
-import com.selesy.testing.uprest.UpRestOld;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,18 +51,18 @@ public class StatusLineResolver implements ParameterResolver {
 
     // Retrieve the entity body if it's already been produced, otherwise, get
     // the HTTP response and create it (also updating the Performance object).
-    StatusLine statusLine = (StatusLine) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_STATUS_LINE, (e) -> {
+    StatusLine statusLine = (StatusLine) store.getOrComputeIfAbsent(Constants.STORE_KEY_STATUS_LINE, (e) -> {
 
       // Retrieve the HTTP response if it's already been produced, otherwise
       // chain to the HttpResponseResolver to create it.
-      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (r) -> {
+      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_RESPONSE, (r) -> {
         HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
         return httpResponseResolver.resolve(parameterContext, extensionContext);
       });
 
       // Store the status line
       StatusLine sl = httpResponse.getStatusLine();
-      store.put(UpRestOld.STORE_KEY_STATUS_LINE, sl);
+      store.put(Constants.STORE_KEY_STATUS_LINE, sl);
       return sl;
     });
 

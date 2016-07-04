@@ -11,8 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.EntityBody;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.extensions.MockitoExtension;
 import com.selesy.testing.uprest.utilities.ParameterContextUtils;
 
@@ -85,7 +85,7 @@ public class StringEntityBodyResolverTests extends BaseResolverTests {
 
   @Test
   public void testResolveWithValidEntityBody() {
-    when(store.getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_ENTITY_BODY), any()))
+    when(store.getOrComputeIfAbsent(eq(Constants.STORE_KEY_ENTITY_BODY), any()))
         .thenReturn(entity1);
 
     assertThat(stringEntityBodyResolver.resolve(parameterContext, extensionContext))
@@ -94,7 +94,7 @@ public class StringEntityBodyResolverTests extends BaseResolverTests {
 
   @Test
   public void testResolveWithEmptyEntityBody() {
-    when(store.getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_ENTITY_BODY), any()))
+    when(store.getOrComputeIfAbsent(eq(Constants.STORE_KEY_ENTITY_BODY), any()))
         .thenReturn(entity2);
 
     assertThat(stringEntityBodyResolver.resolve(parameterContext, extensionContext))
@@ -103,7 +103,7 @@ public class StringEntityBodyResolverTests extends BaseResolverTests {
 
   @Test
   public void testResolveWithNullEntityBody() {
-    when(store.getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_ENTITY_BODY), any()))
+    when(store.getOrComputeIfAbsent(eq(Constants.STORE_KEY_ENTITY_BODY), any()))
         .thenReturn(null);
 
     assertThat(stringEntityBodyResolver.resolve(parameterContext, extensionContext))

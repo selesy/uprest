@@ -12,11 +12,9 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
-import org.owasp.esapi.ESAPI;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.EntityBody;
 import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Performance;
@@ -69,8 +67,8 @@ public abstract class EntityBodyResolver implements ParameterResolver {
 
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
 
-    return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_ENTITY_BODY, (e) -> {
-      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_RESPONSE, (r) -> {
+    return store.getOrComputeIfAbsent(Constants.STORE_KEY_ENTITY_BODY, (e) -> {
+      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_RESPONSE, (r) -> {
         return httpResponseResolver.resolve(parameterContext, extensionContext);
       });
       byte[] entityBody = getEntityBody(httpResponse.getEntity());
@@ -97,10 +95,10 @@ public abstract class EntityBodyResolver implements ParameterResolver {
   void updateStoredResponseSize(Store store, long entityBodySize) {
     log.trace("updateStoredResponseSize()");
     if (entityBodySize > 0) {
-      Performance oldPerformance = (Performance) store.get(UpRestOld.STORE_KEY_PERFORMANCE);
+      Performance oldPerformance = (Performance) store.get(Constants.STORE_KEY_PERFORMANCE);
       Performance newPerformance = new Performance(oldPerformance.getRequestSize(), entityBodySize,
           oldPerformance.getRoundTripInNanoSeconds());
-      store.put(UpRestOld.STORE_KEY_PERFORMANCE, newPerformance);
+      store.put(Constants.STORE_KEY_PERFORMANCE, newPerformance);
     }
   }
 

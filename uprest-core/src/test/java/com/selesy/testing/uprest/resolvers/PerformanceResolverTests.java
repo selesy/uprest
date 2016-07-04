@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.selesy.testing.uprest.UpRestOld;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.extensions.MockitoExtension;
 import com.selesy.testing.uprest.http.Performance;
 
@@ -144,7 +144,7 @@ public class PerformanceResolverTests {
   @Test
   public void testResolveWhenPerformanceIsInStore() {
     Performance performance = new Performance(0, 0, 0);
-    when(store.getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_PERFORMANCE), any()))
+    when(store.getOrComputeIfAbsent(eq(Constants.STORE_KEY_PERFORMANCE), any()))
         .thenReturn(performance);
 
     assertThat(performanceResolver.resolve(parameterContext, extensionContext))
@@ -159,7 +159,7 @@ public class PerformanceResolverTests {
   public void testResolveWhenPerformanceIsNotInStore(@Mock HttpResponseResolver httpResponseResolver) {
     Performance performance = new Performance(0, 0, 0);
     performanceResolver.httpResponseResolver = httpResponseResolver;
-    when(store.getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_PERFORMANCE), any()))
+    when(store.getOrComputeIfAbsent(eq(Constants.STORE_KEY_PERFORMANCE), any()))
         .thenAnswer(new Answer<Object>() {
 
           @Override
@@ -170,14 +170,14 @@ public class PerformanceResolverTests {
           }
 
         });
-    when(store.get(eq(UpRestOld.STORE_KEY_PERFORMANCE)))
+    when(store.get(eq(Constants.STORE_KEY_PERFORMANCE)))
         .thenReturn(performance);
 
     assertThat(performanceResolver.resolve(parameterContext, extensionContext))
         .isSameAs(performance);
     verify(httpResponseResolver).resolve(parameterContext, extensionContext);
-    verify(store).get(eq(UpRestOld.STORE_KEY_PERFORMANCE));
-    verify(store).getOrComputeIfAbsent(eq(UpRestOld.STORE_KEY_PERFORMANCE), any());
+    verify(store).get(eq(Constants.STORE_KEY_PERFORMANCE));
+    verify(store).getOrComputeIfAbsent(eq(Constants.STORE_KEY_PERFORMANCE), any());
   }
 
 }

@@ -21,11 +21,11 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
-import com.selesy.testing.uprest.UpRestOld;
 import com.selesy.testing.uprest.annotations.Headers;
 import com.selesy.testing.uprest.annotations.Methods;
 import com.selesy.testing.uprest.annotations.Paths;
 import com.selesy.testing.uprest.configuration.Configuration;
+import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Method;
 import com.selesy.testing.uprest.utilities.AnnotationReflectionUtility;
 import com.selesy.testing.uprest.utilities.LoggingUtils;
@@ -71,7 +71,7 @@ public class HttpRequestResolver implements ParameterResolver {
     log.trace("resolve()");
     
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
-    return store.getOrComputeIfAbsent(UpRestOld.STORE_KEY_HTTP_REQUEST, (key) -> {
+    return store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_REQUEST, (key) -> {
       // getAppropriateHttpRequestType()
       // getMethods()
       // getHeaders()
@@ -125,7 +125,7 @@ public class HttpRequestResolver implements ParameterResolver {
     // the resolution of other parameters.
     if (httpUriRequest != null) {
       store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
-      store.put(UpRestOld.STORE_KEY_HTTP_REQUEST, httpUriRequest);
+      store.put(Constants.STORE_KEY_HTTP_REQUEST, httpUriRequest);
     }
 
     return httpUriRequest;
@@ -161,7 +161,7 @@ public class HttpRequestResolver implements ParameterResolver {
       return new BasicHeader(matcher.group(1), matcher.group(2));
     }).collect(Collectors.toList()).toArray(new Header[0]);
   }
-
+  
   /**
    * Returns the list of URI suffixes returned from an @Path annotation or the
    * defaults.
