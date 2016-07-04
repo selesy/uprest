@@ -14,6 +14,14 @@ import com.selesy.testing.uprest.resolvers.PerformanceResolver;
 import com.selesy.testing.uprest.resolvers.StatusLineResolver;
 import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
 
+/**
+ * The UpRest meta-annotation allows all the upREST ParameterResolvers to be
+ * applied to a test class with a single annotation.
+ * 
+ * TODO - Example code
+ * 
+ * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @ExtendWith({
@@ -21,11 +29,8 @@ import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
   HttpRequestResolver.class,
   HttpResponseResolver.class,
   PerformanceResolver.class,
-<<<<<<< HEAD
-=======
   StatusLineResolver.class,
   StringEntityBodyResolver.class
->>>>>>> a4fa26aa9c5308b7956318c851ae48981cac995b
 })
 public @interface UpRest {
 
