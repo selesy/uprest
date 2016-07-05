@@ -2,8 +2,6 @@ package com.selesy.testing.uprest.configuration;
 
 import java.nio.charset.Charset;
 
-import org.apache.http.Header;
-
 import com.selesy.testing.uprest.authentication.Authenticator;
 import com.selesy.testing.uprest.http.Method;
 

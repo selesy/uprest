@@ -3,16 +3,12 @@
  */
 package com.selesy.testing.uprest.resolvers;
 
-import java.nio.charset.Charset;
-
 import javax.annotation.Nonnull;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.owasp.esapi.ESAPI;
 
-import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.utilities.LoggingUtils;
 
 import lombok.extern.slf4j.Slf4j;
