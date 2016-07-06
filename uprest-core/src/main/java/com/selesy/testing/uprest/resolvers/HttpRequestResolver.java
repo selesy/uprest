@@ -4,6 +4,8 @@
 
 package com.selesy.testing.uprest.resolvers;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -160,6 +162,16 @@ public class HttpRequestResolver implements ParameterResolver {
       log.debug("Header string matches pattern: {}", matcher.matches());
       return new BasicHeader(matcher.group(1), matcher.group(2));
     }).collect(Collectors.toList()).toArray(new Header[0]);
+  }
+  
+  <T> T[] getAnnotationValue(AnnotatedElement annotatedElement, Class<? extends Annotation> annotationType, Class<T> clazz) {
+    // TODO - This needs to handle multiple annotations
+    
+    return new T[0];
+  }
+  
+  <T> T[] getAnnotationValue(ParameterContext parameterContext, Class<? extends Annotation> annotationType, Class<T> clazz) {
+    return getAnnotationValue(parameterContext.getParameter(), annotationType, clazz);
   }
   
   /**
