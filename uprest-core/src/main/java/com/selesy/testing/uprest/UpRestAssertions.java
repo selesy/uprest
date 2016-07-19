@@ -2,7 +2,9 @@ package com.selesy.testing.uprest;
 
 import org.apache.http.StatusLine;
 
+import com.selesy.testing.uprest.assertions.PerformanceAssert;
 import com.selesy.testing.uprest.assertions.StatusLineAssert;
+import com.selesy.testing.uprest.http.Performance;
 
 /**
  * A collection of fluent (AssertJ) style assertions that provide a single
@@ -12,6 +14,10 @@ import com.selesy.testing.uprest.assertions.StatusLineAssert;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 public class UpRestAssertions {
+  
+  public static PerformanceAssert assertThat(Performance actual) {
+    return PerformanceAssert.assertThat(actual);
+  }
   
   /**
    * Delegates the creation of a StatusLineAssert object for verifying
