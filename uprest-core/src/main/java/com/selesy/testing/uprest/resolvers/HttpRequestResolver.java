@@ -30,6 +30,7 @@ import com.selesy.testing.uprest.configuration.Configuration;
 import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Method;
 import com.selesy.testing.uprest.utilities.AnnotationReflectionUtility;
+import com.selesy.testing.uprest.utilities.AnnotationUtils;
 import com.selesy.testing.uprest.utilities.LoggingUtils;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
@@ -74,7 +75,9 @@ public class HttpRequestResolver implements ParameterResolver {
     
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
     return store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_REQUEST, (key) -> {
-      // getAppropriateHttpRequestType()
+      //Method[] methods = AnnotationUtils.getAnnotation(parameterContext, Methods.class);
+      //Method[] methods = parse(parameterContext, Methods.class, Method.class, Constants.DEFAULT_METHODS);
+      //HttpRequest[] httpRequestsgetHttpRequest(parameterContext);
       // getMethods()
       // getHeaders()
       // getEntityBodies()
@@ -82,55 +85,55 @@ public class HttpRequestResolver implements ParameterResolver {
       return (HttpRequest) null;
     });
 
-    // TODO - Figure out an elegant way of u
-    // Optional<Method> optionalMethod = ec.getTestMethod();
-    // log.debug("Test name: {}", ec.getTestMethod().getName());
-    HttpUriRequest httpUriRequest = null;
-
-    // Get the HTTP methods
-    Method[] methods = { Method.GET };
-    Optional<Methods> optionalMethods = AnnotationReflectionUtility.getMethodAnnotation(Methods.class,
-        extensionContext);
-    if (optionalMethods.isPresent()) {
-      methods = optionalMethods.get().value();
-    }
-    log.debug("Methods: {}", LoggingUtils.prettyPrint(methods));
-
-    // Get the HTTP request headers
-    Header[] headers = {};
-    Optional<Headers> optionalHeaders = AnnotationReflectionUtility.getMethodAnnotation(Headers.class,
-        extensionContext);
-    if (optionalHeaders.isPresent()) {
-      headers = convertHeaders(optionalHeaders.get().value());
-    }
-    log.debug("Headers: {}", LoggingUtils.prettyPrint(headers, (h) -> h.getName() + ":" + h.getValue()));
-
-    // Get the annotated paths (which will be the suffix of the test URI
-    String[] paths = permutePaths(extensionContext);
-    log.debug("Permuted path count: {}", paths.length);
-    log.debug("Paths:  {}", LoggingUtils.prettyPrint(paths));
-
-    // Build the HttpRequest
-    if (methods.length > 0 && paths.length > 0) {
-      try {
-        httpUriRequest = methods[0].getHttpUriRequest(paths[0]);
-        httpUriRequest.setHeaders(headers);
-      } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
-          | IllegalArgumentException | InvocationTargetException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-      }
-    }
-
-    // Store the HttpRequest in the ExtensionContext so it's available
-    // during
-    // the resolution of other parameters.
-    if (httpUriRequest != null) {
-      store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
-      store.put(Constants.STORE_KEY_HTTP_REQUEST, httpUriRequest);
-    }
-
-    return httpUriRequest;
+//    // TODO - Figure out an elegant way of u
+//    // Optional<Method> optionalMethod = ec.getTestMethod();
+//    // log.debug("Test name: {}", ec.getTestMethod().getName());
+//    HttpUriRequest httpUriRequest = null;
+//
+//    // Get the HTTP methods
+//    Method[] methods = { Method.GET };
+//    Optional<Methods> optionalMethods = AnnotationReflectionUtility.getMethodAnnotation(Methods.class,
+//        extensionContext);
+//    if (optionalMethods.isPresent()) {
+//      methods = optionalMethods.get().value();
+//    }
+//    log.debug("Methods: {}", LoggingUtils.prettyPrint(methods));
+//
+//    // Get the HTTP request headers
+//    Header[] headers = {};
+//    Optional<Headers> optionalHeaders = AnnotationReflectionUtility.getMethodAnnotation(Headers.class,
+//        extensionContext);
+//    if (optionalHeaders.isPresent()) {
+//      headers = convertHeaders(optionalHeaders.get().value());
+//    }
+//    log.debug("Headers: {}", LoggingUtils.prettyPrint(headers, (h) -> h.getName() + ":" + h.getValue()));
+//
+//    // Get the annotated paths (which will be the suffix of the test URI
+//    String[] paths = permutePaths(extensionContext);
+//    log.debug("Permuted path count: {}", paths.length);
+//    log.debug("Paths:  {}", LoggingUtils.prettyPrint(paths));
+//
+//    // Build the HttpRequest
+//    if (methods.length > 0 && paths.length > 0) {
+//      try {
+//        httpUriRequest = methods[0].getHttpUriRequest(paths[0]);
+//        httpUriRequest.setHeaders(headers);
+//      } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException
+//          | IllegalArgumentException | InvocationTargetException e) {
+//        // TODO Auto-generated catch block
+//        e.printStackTrace();
+//      }
+//    }
+//
+//    // Store the HttpRequest in the ExtensionContext so it's available
+//    // during
+//    // the resolution of other parameters.
+//    if (httpUriRequest != null) {
+//      store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
+//      store.put(Constants.STORE_KEY_HTTP_REQUEST, httpUriRequest);
+//    }
+//
+//    return httpUriRequest;
   }
 
   /*
@@ -164,15 +167,17 @@ public class HttpRequestResolver implements ParameterResolver {
     }).collect(Collectors.toList()).toArray(new Header[0]);
   }
   
-  <T> T[] getAnnotationValue(AnnotatedElement annotatedElement, Class<? extends Annotation> annotationType, Class<T> clazz) {
-    // TODO - This needs to handle multiple annotations
-    
-    return new T[0];
-  }
-  
-  <T> T[] getAnnotationValue(ParameterContext parameterContext, Class<? extends Annotation> annotationType, Class<T> clazz) {
-    return getAnnotationValue(parameterContext.getParameter(), annotationType, clazz);
-  }
+//  HttpRequest
+//  
+//  <T> T[] getAnnotationValue(AnnotatedElement annotatedElement, Class<? extends Annotation> annotationType, Class<T> clazz) {
+//    // TODO - This needs to handle multiple annotations
+//    
+//    return new T[0];
+//  }
+//  
+//  <T> T[] getAnnotationValue(ParameterContext parameterContext, Class<? extends Annotation> annotationType, Class<T> clazz) {
+//    return getAnnotationValue(parameterContext.getParameter(), annotationType, clazz);
+//  }
   
   /**
    * Returns the list of URI suffixes returned from an @Path annotation or the
@@ -195,7 +200,7 @@ public class HttpRequestResolver implements ParameterResolver {
 
     return paths;
   }
-
+  
   /**
    * Generates a list of String URIs that contains every permutation of base
    * paths, type paths and method paths.
