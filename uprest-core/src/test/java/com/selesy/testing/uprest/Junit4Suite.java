@@ -1,5 +1,6 @@
 package com.selesy.testing.uprest;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.platform.runner.SelectPackages;
 import org.junit.runner.RunWith;
@@ -13,5 +14,10 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitPlatform.class)
 @SelectPackages("com.selesy.testing.uprest")
 public class Junit4Suite {
+  
+  @BeforeAll
+  static void beforeAll() {
+    System.out.println("SuiteBeforeAll");
+  }
 
 }
