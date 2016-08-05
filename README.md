@@ -101,3 +101,12 @@ retrieved
           .containsKey("id")
           .hasKeyWithValue("userName", "abc123");
     }
+
+Other annotations are provided for the following purposes:
+
+-   @EntityBodies - Provides one or more HTTP entity bodies in string form
+                    to generate the HTTP requests.
+    @EntityBody - Allows the annotation of a test method parameter so that
+                  the HTTP response's entity body is returned as a String
+                  or byte[].  Other modules marshal these types into
+                  Java objects.
