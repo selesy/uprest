@@ -8,7 +8,6 @@ import java.lang.reflect.Parameter;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.ParameterContext;
-import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.configuration.Constants;
@@ -29,24 +28,13 @@ public class PerformanceResolver implements ParameterResolver {
 
   HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
 
-  /**
-   * Uses the MethodInvocationContext and ExtensionContext to retrieve or create
-   * a Performance instance for this test.
-   * 
-   * @param mic
-   *          The MethodInvocationContext
-   * @param ec
-   *          The ExtensionContext
-   * @return A Performance instance describing the request/response cycle
-   *         associated with this test.
-   * @see com.selesy.testing.uprest.resolvers.ChainableParameterResolver#resolve(org.
-   *      junit.gen5.api.extension.MethodInvocationContext,
-   *      org.junit.gen5.api.extension.ExtensionContext)
+  /* (non-Javadoc)
+   * @see org.junit.jupiter.api.extension.ParameterResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)
    */
-
   @Override
-  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
-      throws ParameterResolutionException {
+  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
+    log.trace("supports()");
+
     boolean supported = false;
     Parameter parameter = parameterContext.getParameter();
     if (parameter != null && Performance.class.equals(parameter.getType())) {
@@ -55,16 +43,18 @@ public class PerformanceResolver implements ParameterResolver {
     return supported;
   }
 
+  /* (non-Javadoc)
+   * @see org.junit.jupiter.api.extension.ParameterResolver#resolve(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)
+   */
   @Override
-  public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext)
-      throws ParameterResolutionException {
+  public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
     log.trace("resolve()");
 
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
-    return (Performance) store.getOrComputeIfAbsent(Constants.STORE_KEY_PERFORMANCE, (key) -> {
+    return store.getOrComputeIfAbsent(Constants.STORE_KEY_PERFORMANCE, key -> {
       httpResponseResolver.resolve(parameterContext, extensionContext);
-      return store.get(Constants.STORE_KEY_PERFORMANCE);
-    });
+      return store.get(Constants.STORE_KEY_PERFORMANCE, Performance.class);
+    }, Performance.class);
   }
 
 }
