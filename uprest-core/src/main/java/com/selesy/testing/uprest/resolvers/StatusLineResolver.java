@@ -24,24 +24,26 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class StatusLineResolver implements ParameterResolver {
-  
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.junit.jupiter.api.extension.ParameterResolver#supports(org.junit.
+   * jupiter.api.extension.ParameterContext,
+   * org.junit.jupiter.api.extension.ExtensionContext)
+   */
   @Override
   public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext) {
     return parameterContext.getParameter().getType().equals(StatusLine.class);
   }
 
-  /**
-   * Resolve the HTTP StatusLine, also resolving the HttpResponse if necessary.
+  /*
+   * (non-Javadoc)
    * 
-   * @param mic
-   *          The MethodInvocationContext.
-   * @param ec
-   *          The ExtensionContext.
-   * @return The resolved StatusLine object.
-   * 
-   * @see com.selesy.testing.uprest.resolvers.ChainableParameterResolver#resolve(org.
-   *      junit.gen5.api.extension.MethodInvocationContext,
-   *      org.junit.gen5.api.extension.ExtensionContext)
+   * @see
+   * org.junit.jupiter.api.extension.ParameterResolver#resolve(org.junit.jupiter
+   * .api.extension.ParameterContext,
+   * org.junit.jupiter.api.extension.ExtensionContext)
    */
   @Override
   public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
@@ -51,20 +53,20 @@ public class StatusLineResolver implements ParameterResolver {
 
     // Retrieve the entity body if it's already been produced, otherwise, get
     // the HTTP response and create it (also updating the Performance object).
-    StatusLine statusLine = (StatusLine) store.getOrComputeIfAbsent(Constants.STORE_KEY_STATUS_LINE, (e) -> {
+    StatusLine statusLine = store.getOrComputeIfAbsent(Constants.STORE_KEY_STATUS_LINE, e -> {
 
       // Retrieve the HTTP response if it's already been produced, otherwise
       // chain to the HttpResponseResolver to create it.
-      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_RESPONSE, (r) -> {
+      HttpResponse httpResponse = (HttpResponse) store.getOrComputeIfAbsent(Constants.STORE_KEY_HTTP_RESPONSE, r -> {
         HttpResponseResolver httpResponseResolver = new HttpResponseResolver();
-        return httpResponseResolver.resolve(parameterContext, extensionContext);
-      });
+        return (HttpResponse) httpResponseResolver.resolve(parameterContext, extensionContext);
+      }, HttpResponse.class);
 
       // Store the status line
       StatusLine sl = httpResponse.getStatusLine();
       store.put(Constants.STORE_KEY_STATUS_LINE, sl);
       return sl;
-    });
+    }, StatusLine.class);
 
     log.debug("Status line: {}", ESAPI.encoder().encodeForHTML(statusLine.toString()));
     return statusLine;
