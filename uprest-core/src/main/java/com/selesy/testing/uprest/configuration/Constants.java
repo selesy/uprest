@@ -30,6 +30,6 @@ public class Constants {
   public static final Authenticator[] DEFAULT_AUTHENTICATORS = {};
   public static final String[] DEFAULT_ENTITY_BODIES = {};
   public static final String[] DEFAULT_HEADERS = {};
-  public static final Method[] DEFAULT_METHODS = { Method.GET };
-  public static final String[] DEFAULT_PATHS = { "/" };
+  static final Method[] DEFAULT_METHODS = { Method.GET };
+  static final String[] DEFAULT_PATHS = { "/" };
 }
