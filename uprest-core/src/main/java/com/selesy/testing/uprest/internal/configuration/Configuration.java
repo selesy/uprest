@@ -1,4 +1,4 @@
-package com.selesy.testing.uprest.configuration;
+package com.selesy.testing.uprest.internal.configuration;
 
 import lombok.Getter;
 
