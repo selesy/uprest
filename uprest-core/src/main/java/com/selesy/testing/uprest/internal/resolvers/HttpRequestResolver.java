@@ -2,11 +2,8 @@
  * 
  */
 
-package com.selesy.testing.uprest.resolvers;
+package com.selesy.testing.uprest.internal.resolvers;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,22 +12,17 @@ import java.util.stream.Stream;
 
 import org.apache.http.Header;
 import org.apache.http.HttpRequest;
-import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicHeader;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Store;
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
-import org.junit.jupiter.api.extension.ParameterResolver;
 
-import com.selesy.testing.uprest.annotations.Headers;
-import com.selesy.testing.uprest.annotations.Methods;
 import com.selesy.testing.uprest.annotations.Paths;
-import com.selesy.testing.uprest.configuration.Configuration;
-import com.selesy.testing.uprest.configuration.Constants;
-import com.selesy.testing.uprest.http.Method;
+import com.selesy.testing.uprest.internal.UpRestInvocationContext;
+import com.selesy.testing.uprest.internal.configuration.Configuration;
+import com.selesy.testing.uprest.internal.configuration.Constants;
 import com.selesy.testing.uprest.utilities.AnnotationReflectionUtility;
-import com.selesy.testing.uprest.utilities.AnnotationUtils;
 import com.selesy.testing.uprest.utilities.LoggingUtils;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
@@ -47,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Slf4j
-public class HttpRequestResolver implements ParameterResolver {
+public class HttpRequestResolver extends UpRestParameterResolver {
 
   public static final String STORE_KEY_HTTP_REQUEST = "HttpRequest";
   public static final Class<?> SUPPORTED_TYPE = HttpRequest.class;
@@ -55,6 +47,10 @@ public class HttpRequestResolver implements ParameterResolver {
   static final String HEADER_SPLITING_REGEX = "^([^:]+):(.+)$";
 
   Pattern pattern = Pattern.compile(HEADER_SPLITING_REGEX);
+  
+  public HttpRequestResolver(UpRestInvocationContext context) {
+	  super(context);
+  }
 
   /**
    * Resolves an HttpRequest (actually an HttpUriRequest using the annotations
@@ -70,7 +66,7 @@ public class HttpRequestResolver implements ParameterResolver {
    *      org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public Object resolve(ParameterContext parameterContext, ExtensionContext extensionContext) {
+  public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
     log.trace("resolve()");
     
     Store store = StoreUtils.getStoreNamespacedByUniqueId(extensionContext);
@@ -82,7 +78,7 @@ public class HttpRequestResolver implements ParameterResolver {
       // getHeaders()
       // getEntityBodies()
       // getPaths()
-      return (HttpRequest) null;
+      return context.getRequest();
     });
 
 //    // TODO - Figure out an elegant way of u
@@ -144,7 +140,7 @@ public class HttpRequestResolver implements ParameterResolver {
    * extension.ParameterContext, org.junit.gen5.api.extension.ExtensionContext)
    */
   @Override
-  public boolean supports(ParameterContext parameterContext, ExtensionContext extensionContext)
+  public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext)
       throws ParameterResolutionException {
     return parameterContext.getParameter().getType().equals(HttpRequest.class);
   }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.selesy.testing.uprest.resolvers;
+package com.selesy.testing.uprest.internal.resolvers;
 
 import javax.annotation.Nonnull;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.selesy.testing.uprest.resolvers;
+package com.selesy.testing.uprest.internal.resolvers;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 import org.owasp.esapi.ESAPI;
 
-import com.selesy.testing.uprest.configuration.Constants;
+import com.selesy.testing.uprest.internal.configuration.Constants;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
 import lombok.extern.slf4j.Slf4j;

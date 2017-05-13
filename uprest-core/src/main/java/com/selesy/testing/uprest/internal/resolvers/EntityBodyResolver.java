@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.selesy.testing.uprest.resolvers;
+package com.selesy.testing.uprest.internal.resolvers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -16,8 +16,8 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
 import com.selesy.testing.uprest.annotations.EntityBody;
-import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.http.Performance;
+import com.selesy.testing.uprest.internal.configuration.Constants;
 import com.selesy.testing.uprest.utilities.LoggingUtils;
 import com.selesy.testing.uprest.utilities.StoreUtils;
 
