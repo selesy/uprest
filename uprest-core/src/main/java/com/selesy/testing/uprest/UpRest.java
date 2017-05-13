@@ -5,33 +5,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import com.selesy.testing.uprest.resolvers.ByteArrayEntityBodyResolver;
-import com.selesy.testing.uprest.resolvers.HttpRequestResolver;
-import com.selesy.testing.uprest.resolvers.HttpResponseResolver;
-import com.selesy.testing.uprest.resolvers.PerformanceResolver;
-import com.selesy.testing.uprest.resolvers.StatusLineResolver;
-import com.selesy.testing.uprest.resolvers.StringEntityBodyResolver;
+import com.selesy.testing.uprest.internal.UpRestInvocationContextProvider;
 
 /**
- * The UpRest meta-annotation allows all the upREST ParameterResolvers to be
- * applied to a test class with a single annotation.
- * 
+ * The UpRest meta-annotation extends the TestTemplate annotation to expand the
+ * number of executed tests and to register parameter resolvers that are
+ * specific to REST testing.
+ *
  * TODO - Example code
- * 
- * @author Steve Moyer &lt;smoyer1@selesy.com&gt;
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
-@ExtendWith({
-  ByteArrayEntityBodyResolver.class,
-  HttpRequestResolver.class,
-  HttpResponseResolver.class,
-  PerformanceResolver.class,
-  StatusLineResolver.class,
-  StringEntityBodyResolver.class
-})
+@Target({ ElementType.METHOD })
+@TestTemplate
+@ExtendWith(UpRestInvocationContextProvider.class)
 public @interface UpRest {
 
 }
