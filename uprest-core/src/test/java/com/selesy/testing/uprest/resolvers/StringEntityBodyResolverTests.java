@@ -12,8 +12,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.selesy.testing.uprest.annotations.EntityBody;
-import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.extensions.MockitoExtension;
+import com.selesy.testing.uprest.internal.configuration.Constants;
+import com.selesy.testing.uprest.internal.resolvers.StringEntityBodyResolver;
 import com.selesy.testing.uprest.utilities.ParameterContextUtils;
 
 @ExtendWith(MockitoExtension.class)

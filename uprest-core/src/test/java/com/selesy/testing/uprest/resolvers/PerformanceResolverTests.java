@@ -24,9 +24,11 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.selesy.testing.uprest.configuration.Constants;
 import com.selesy.testing.uprest.extensions.MockitoExtension;
 import com.selesy.testing.uprest.http.Performance;
+import com.selesy.testing.uprest.internal.configuration.Constants;
+import com.selesy.testing.uprest.internal.resolvers.HttpResponseResolver;
+import com.selesy.testing.uprest.internal.resolvers.PerformanceResolver;
 
 /**
  * @author swm16
@@ -82,7 +84,7 @@ public class PerformanceResolverTests {
 
   /**
    * Test method for
-   * {@link com.selesy.testing.uprest.resolvers.PerformanceResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
+   * {@link com.selesy.testing.uprest.internal.resolvers.PerformanceResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
    * 
    * @throws SecurityException
    * @throws NoSuchMethodException
@@ -103,7 +105,7 @@ public class PerformanceResolverTests {
 
   /**
    * Test method for
-   * {@link com.selesy.testing.uprest.resolvers.PerformanceResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
+   * {@link com.selesy.testing.uprest.internal.resolvers.PerformanceResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
    * 
    * @throws SecurityException
    * @throws NoSuchMethodException
@@ -124,7 +126,7 @@ public class PerformanceResolverTests {
 
   /**
    * Test method for
-   * {@link com.selesy.testing.uprest.resolvers.PerformanceResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
+   * {@link com.selesy.testing.uprest.internal.resolvers.PerformanceResolver#supports(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
    * 
    * @throws SecurityException
    * @throws NoSuchMethodException
@@ -139,7 +141,7 @@ public class PerformanceResolverTests {
 
   /**
    * Test method for
-   * {@link com.selesy.testing.uprest.resolvers.PerformanceResolver#resolve(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
+   * {@link com.selesy.testing.uprest.internal.resolvers.PerformanceResolver#resolve(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
    */
   @Test
   public void testResolveWhenPerformanceIsInStore() {
@@ -153,7 +155,7 @@ public class PerformanceResolverTests {
 
   /**
    * Test method for
-   * {@link com.selesy.testing.uprest.resolvers.PerformanceResolver#resolve(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
+   * {@link com.selesy.testing.uprest.internal.resolvers.PerformanceResolver#resolve(org.junit.jupiter.api.extension.ParameterContext, org.junit.jupiter.api.extension.ExtensionContext)}.
    */
   @Test
   public void testResolveWhenPerformanceIsNotInStore(@Mock HttpResponseResolver httpResponseResolver) {

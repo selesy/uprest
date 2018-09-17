@@ -8,7 +8,7 @@ import javax.annotation.Nonnull;
 
 import org.owasp.esapi.ESAPI;
 
-import com.selesy.testing.uprest.configuration.Constants;
+import com.selesy.testing.uprest.internal.configuration.Constants;
 
 import lombok.experimental.UtilityClass;
 
