@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.selesy.testing.uprest</groupId>
@@ -27,6 +27,10 @@
     <version.lombok>1.16.8</version.lombok>
     <version.mockito>2.0.69-beta</version.mockito>
     <version.slf4j>1.7.21</version.slf4j>
+
+    <!-- Plugin versions -->
+
+    <version.pitest-maven>1.4.2</version.pitest-maven>
   </properties>
 
   <modules>
@@ -219,7 +223,7 @@
               <plugin>
                 <groupId>com.h3xstream.findsecbugs</groupId>
                 <artifactId>findsecbugs-plugin</artifactId>
-                <version>LATEST</version> <!-- Auto-update to the latest stable -->
+                <version>LATEST</version>                <!-- Auto-update to the latest stable -->
               </plugin>
             </plugins>
           </configuration>
@@ -230,6 +234,32 @@
               </goals>
             </execution>
           </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.1.10</version>
+          <configuration>
+            <targetClasses>
+              <param>com.selesy.testing.uprest*</param>
+            </targetClasses>
+            <targetTests>
+              <param>com.selesy.testing.uprest*</param>
+            </targetTests>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>${version.pitest-maven}</version>
+          <configuration>
+            <targetClasses>
+              <param>com.selesy.testing.uprest*</param>
+            </targetClasses>
+            <targetTests>
+              <param>com.selesy.testing.uprest*</param>
+            </targetTests>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
